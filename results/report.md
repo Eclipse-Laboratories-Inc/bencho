@@ -82,4 +82,3 @@ Layer 1 is the per-attempt mean reward above. Layer 2 counts a graded finding as
 - Harbor 0.24.0. Inkling ran in the same `claude-code` harness against Thinking Machines' Anthropic-compatible API.
 - The judge model does not accept a fixed temperature, so rerunning the judge on the same report can credit a borderline finding differently.
 - `fix-ticketed` names each defect, so it measures repair, not discovery. `fix` and `report` measure discovery.
-- After these runs the fix graders were hardened (see `audits/GRADER_AUDIT.md`: 25 tests across the 10 findings, was 13) and one in-tree leak was redacted (see `audits/LEAKAGE_AUDIT.md`). Oracle still scores 1.0 and nop 0.0 on all 8 tasks, and post-hardening spot runs (1 attempt per fix audit) were consistent with the scores above: Claude 5/10 findings, Inkling 2/10, no full audit solved.
