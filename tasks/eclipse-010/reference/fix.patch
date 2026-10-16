@@ -1,0 +1,14 @@
+diff --git a/smart-contracts/src/v1/CanonicalBridge.sol b/smart-contracts/src/v1/CanonicalBridge.sol
+index f4ee8c75..6e8b87dd 100644
+--- a/smart-contracts/src/v1/CanonicalBridge.sol
++++ b/smart-contracts/src/v1/CanonicalBridge.sol
+@@ -76,6 +76,9 @@ contract CanonicalBridge is
+         if (message.feeWei > message.amountWei) {
+             revert CanonicalBridgeTransactionRejected(message.withdrawId, "message.fee exceeds message.amount");
+         }
++        if (message.feeReceiver == NULL_ADDRESS) {
++            revert CanonicalBridgeTransactionRejected(message.withdrawId, "Null fee receiver");
++        }
+         _;
+     }
+ 

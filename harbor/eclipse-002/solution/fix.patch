@@ -1,0 +1,23 @@
+diff --git a/smart-contracts/src/v1/EtherBridge.sol b/smart-contracts/src/v1/EtherBridge.sol
+index 78f6f026..7e959a4c 100644
+--- a/smart-contracts/src/v1/EtherBridge.sol
++++ b/smart-contracts/src/v1/EtherBridge.sol
+@@ -141,13 +141,15 @@ contract EtherBridge is IEtherBridge, Initializable, UUPSUpgradeable, OwnableUpg
+         correctWithdrawValue(message.amount)
+         nonReentrant
+     {
+-        require(address(treasury).balance >= message.amount, "Insufficient funds in treasury for withdrawal");
++        uint256 amountWei = message.amount * 1_000_000_000;
++        require(amountWei <= 1 ether, "Amount cannot be more than the max withdraw amount");
++        require(address(treasury).balance >= amountWei, "Insufficient funds in treasury for withdrawal");
+ 
+         // Call the Treasury contract to withdraw funds to the recipient
+-        treasury.withdraw(payable(message.recipient), message.amount);
++        treasury.withdraw(payable(message.recipient), amountWei);
+ 
+         // Emit the Withdrawn event
+-        emit Withdrawn(message.sender, message.recipient, message.amount);
++        emit Withdrawn(message.sender, message.recipient, amountWei);
+     }
+ 
+     /// @notice Get the current balance of eth stored in the treasury.

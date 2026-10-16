@@ -1,0 +1,13 @@
+diff --git a/smart-contracts/src/v1/EtherBridge.sol b/smart-contracts/src/v1/EtherBridge.sol
+index 12e8f107..e5980ea8 100644
+--- a/smart-contracts/src/v1/EtherBridge.sol
++++ b/smart-contracts/src/v1/EtherBridge.sol
+@@ -41,7 +41,7 @@ contract EtherBridge is
+     uint256 private constant LAMPORTS_PER_YEAR = 3_480;
+     uint256 private constant EXEMPTION_THRESHOLD = 2;
+     uint256 private constant DEPOSIT_RECEIPT_DATA_LEN = 8 + 32 + 8 + 1;
+-    uint256 private constant MIN_DEPOSIT_LAMPORTS = (LAMPORTS_PER_YEAR * EXEMPTION_THRESHOLD * DEPOSIT_RECEIPT_DATA_LEN);
++    uint256 private constant MIN_DEPOSIT_LAMPORTS = 2_000_000;
+     uint256 private constant WEI_PER_LAMPORT = 1_000_000_000;
+ 
+     /// @custom:storage-location erc7201:eclipse.ether_bridge.v1

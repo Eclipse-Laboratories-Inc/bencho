@@ -1,0 +1,6 @@
+**/audits
+**/certora
+**/docs
+**/.git
+**/.github
+**/.changeset

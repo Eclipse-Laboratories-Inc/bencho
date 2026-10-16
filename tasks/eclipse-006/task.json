@@ -1,0 +1,18 @@
+{
+  "id": "eclipse-006",
+  "repo": "Eclipse-Laboratories-Inc/syzygy",
+  "base_commit": "bcbec05047af74c9d5bbcd819c829c655e544bb6",
+  "remediated_commit": "c0293b3856527430d3f14d1528281ef2aa2f5549",
+  "audit": "OtterSec 2024-07-18",
+  "finding_id": "OS-ECB-ADV-02",
+  "title": "MessageSent emits the Ethereum chain id",
+  "grader": "grader/Eclipse006.sol",
+  "test_relpath": "smart-contracts/test/audit/Eclipse006.sol",
+  "audit_tests": [
+    "test_audit_messageSentUsesEclipseChainId"
+  ],
+  "preservation_tests": [
+    "test_Mailbox_OnlyModuleCanSendMessage"
+  ],
+  "image": "ghcr.io/foundry-rs/foundry:stable"
+}

@@ -1,0 +1,103 @@
+[
+  {
+    "task": "eclipse-001",
+    "finding": "3.1",
+    "reference_valid": true,
+    "historical_b_passes": true,
+    "a_audit": {
+      "test_audit_depositLocksFullWeiInTreasury": "fail"
+    },
+    "reference_reward": 1
+  },
+  {
+    "task": "eclipse-002",
+    "finding": "3.3",
+    "reference_valid": true,
+    "historical_b_passes": true,
+    "a_audit": {
+      "test_audit_withdrawConvertsLamportsToWei": "fail"
+    },
+    "reference_reward": 1
+  },
+  {
+    "task": "eclipse-003",
+    "finding": "3.5",
+    "reference_valid": true,
+    "historical_b_passes": true,
+    "a_audit": {
+      "test_audit_withdrawRejectsZeroRecipient": "fail",
+      "test_audit_mailOutgoingRejectsEmptyDestination": "fail"
+    },
+    "reference_reward": 1
+  },
+  {
+    "task": "eclipse-004",
+    "finding": "3.6",
+    "reference_valid": true,
+    "historical_b_passes": true,
+    "a_audit": {
+      "test_audit_nonceMarkedBeforeRouterCall": "fail"
+    },
+    "reference_reward": 1
+  },
+  {
+    "task": "eclipse-005",
+    "finding": "OS-ECB-ADV-00",
+    "reference_valid": true,
+    "historical_b_passes": true,
+    "a_audit": {
+      "test_audit_minDepositCoversRentOverhead": "fail"
+    },
+    "reference_reward": 1
+  },
+  {
+    "task": "eclipse-006",
+    "finding": "OS-ECB-ADV-02",
+    "reference_valid": true,
+    "historical_b_passes": true,
+    "a_audit": {
+      "test_audit_messageSentUsesEclipseChainId": "fail"
+    },
+    "reference_reward": 1
+  },
+  {
+    "task": "eclipse-007",
+    "finding": "OS-ECS-SUG-00.1",
+    "reference_valid": true,
+    "historical_b_passes": true,
+    "a_audit": {
+      "test_audit_feeIsTakenFromAmount": "fail"
+    },
+    "reference_reward": 1
+  },
+  {
+    "task": "eclipse-008",
+    "finding": "OS-ECS-SUG-00.2",
+    "reference_valid": true,
+    "historical_b_passes": true,
+    "a_audit": {
+      "test_audit_cancelClearsWithdrawId": "fail"
+    },
+    "reference_reward": 1
+  },
+  {
+    "task": "eclipse-009",
+    "finding": "OS-ECS-SUG-01.1",
+    "reference_valid": true,
+    "historical_b_passes": true,
+    "a_audit": {
+      "test_audit_claimClosesBeforeExternalCall": "fail"
+    },
+    "reference_reward": 1
+  },
+  {
+    "task": "eclipse-010",
+    "finding": "OS-ECS-SUG-00.3",
+    "reference_valid": true,
+    "historical_b_passes": true,
+    "a_audit": {
+      "test_audit_authorizeRejectsZeroFeeReceiver": "fail"
+    },
+    "reference_reward": 1
+  }
+]

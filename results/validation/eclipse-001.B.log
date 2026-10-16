@@ -1,0 +1,24 @@
+Compiling 1 files with Solc 0.8.21
+Solc 0.8.21 finished in 412.63ms
+Compiler run successful!
+
+Ran 1 test for test/audit/Eclipse001.sol:Eclipse001_Test
+[PASS] test_audit_depositLocksFullWeiInTreasury() (gas: 72313)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 2.32ms (1.12ms CPU time)
+
+Ran 1 test for test/unit/v1/etherBridge.sol:EtherBridge_Test
+[PASS] test_EtherBridge_Success() (gas: 71768)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 564.57µs (191.71µs CPU time)
+
+Ran 1 test for test/unit/v1/simulatedDeposit.sol:SimulatedMailbox_Test
+[PASS] test_EtherBridge_Success() (gas: 55916)
+Logs:
+  1
+  2
+  3
+  4
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 155.66µs (64.87µs CPU time)
+
+Ran 3 test suites in 12.08ms (3.04ms CPU time): 3 tests passed, 0 failed, 0 skipped (3 total tests)
+

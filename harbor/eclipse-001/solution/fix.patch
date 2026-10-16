@@ -1,0 +1,13 @@
+diff --git a/smart-contracts/src/v1/EtherBridge.sol b/smart-contracts/src/v1/EtherBridge.sol
+index 78f6f026..f87dfca9 100644
+--- a/smart-contracts/src/v1/EtherBridge.sol
++++ b/smart-contracts/src/v1/EtherBridge.sol
+@@ -124,7 +124,7 @@ contract EtherBridge is IEtherBridge, Initializable, UUPSUpgradeable, OwnableUpg
+         router.routeOutgoingMessage{gas: MIN_DEPOSIT_GAS_ONLY_ROUTING}(encodedMessage);
+ 
+         // Lock ether by sending it to treasury
+-        (bool success,) = payable(address(treasury)).call{value: message.amount}("");
++        (bool success,) = payable(address(treasury)).call{value: amount}("");
+         require(success, "Transfer failed");
+ 
+         emit Deposited(msg.sender, recipient, amount, fee);

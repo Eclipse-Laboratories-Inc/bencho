@@ -1,0 +1,14 @@
+diff --git a/smart-contracts/src/v1/Treasury.sol b/smart-contracts/src/v1/Treasury.sol
+index 98bd3652..8ccd13a1 100644
+--- a/smart-contracts/src/v1/Treasury.sol
++++ b/smart-contracts/src/v1/Treasury.sol
+@@ -117,8 +117,7 @@ contract Treasury is
+         onlyRole(WITHDRAW_AUTHORITY_ROLE)
+         returns (bool success) 
+     {
+-        uint256 totalAmount = amountWei + feeWei;
+-        if (address(this).balance < totalAmount) {
++        if (address(this).balance < amountWei) {
+             revert InsufficientFunds();
+         }
+         (success,) = payable(to).call{value: amountWei - feeWei}("");

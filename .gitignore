@@ -1,0 +1,13 @@
+repos/
+.venv/
+.work/
+environment/forge-libs/
+results/trajectories/
+results/runs/
+results/work/
+results/discovery/*/trajectories/
+results/harbor-jobs/
+**/.env
+**/.env.*
+!**/.env.example
+**/.envrc

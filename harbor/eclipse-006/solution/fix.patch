@@ -1,0 +1,13 @@
+diff --git a/smart-contracts/src/v1/Mailbox.sol b/smart-contracts/src/v1/Mailbox.sol
+index 7c61e8b9..7ce8a966 100644
+--- a/smart-contracts/src/v1/Mailbox.sol
++++ b/smart-contracts/src/v1/Mailbox.sol
+@@ -228,7 +228,7 @@ contract Mailbox is
+ 
+         // Create security param
+         bytes memory param = abi.encode(EthereumSecurityParam({nonce: outboundNonce}));
+-        emit MessageSent(receiver_, encodeChainId($.ethereumChainId), message_, param);
++        emit MessageSent(receiver_, encodeChainId($.eclipseChainId), message_, param);
+ 
+         return true;
+     }

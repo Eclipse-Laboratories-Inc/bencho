@@ -1,0 +1,12 @@
+diff --git a/smart-contracts/src/v1/CanonicalBridge.sol b/smart-contracts/src/v1/CanonicalBridge.sol
+index 6e8b87dd..2bd1ee75 100644
+--- a/smart-contracts/src/v1/CanonicalBridge.sol
++++ b/smart-contracts/src/v1/CanonicalBridge.sol
+@@ -253,6 +253,7 @@ contract CanonicalBridge is
+         validWithdrawMessage(message)
+         onlyRole(WITHDRAW_CANCELLER_ROLE)
+     {
++        withdrawMsgIdProcessed[message.withdrawId] = 0;
+         deleteWithdrawMessage(withdrawMessageHash(message));
+         emit WithdrawMessageDeleted(msg.sender, message);
+     }

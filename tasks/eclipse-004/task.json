@@ -1,0 +1,18 @@
+{
+  "id": "eclipse-004",
+  "repo": "Eclipse-Laboratories-Inc/syzygy",
+  "base_commit": "70b57c23334778c4072cb8e60b4e2bbf23a034ed",
+  "remediated_commit": "a7bd98203af3089cf465338c54b92bcb145c04d2",
+  "audit": "Zellic 2024-03-13",
+  "finding_id": "3.6",
+  "title": "receiveMessage updates the nonce after the external call",
+  "grader": "grader/Eclipse004.sol",
+  "test_relpath": "smart-contracts/test/audit/Eclipse004.sol",
+  "audit_tests": [
+    "test_audit_nonceMarkedBeforeRouterCall"
+  ],
+  "preservation_tests": [
+    "test_Mailbox_ReceiveMessage_Success"
+  ],
+  "image": "ghcr.io/foundry-rs/foundry:stable"
+}

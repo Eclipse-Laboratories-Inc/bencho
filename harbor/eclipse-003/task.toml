@@ -1,0 +1,40 @@
+schema_version = "1.4"
+
+[task]
+name = "eclipse/eclipse-003"
+version = "1.0.0"
+description = "Audit the Eclipse canonical-bridge smart contracts and fix security defects."
+authors = [{ name = "Eclipse Laboratories", email = "daniel@eclipse.builders" }]
+keywords = ["smart-contracts", "solidity", "foundry", "security"]
+
+[metadata]
+author_name = "Eclipse Laboratories"
+author_email = "daniel@eclipse.builders"
+category = "smart-contract-security"
+tags = ["smart-contracts", "solidity", "foundry", "security"]
+source_repository = "https://github.com/Eclipse-Laboratories-Inc/syzygy"
+source_commit = "70b57c23334778c4072cb8e60b4e2bbf23a034ed"
+remediated_commit = "a7bd98203af3089cf465338c54b92bcb145c04d2"
+source_audit = "Zellic 2024-03-13"
+finding_id = "3.5"
+snapshot_group = "70b57c233347"
+snapshot_tasks = ["eclipse-001", "eclipse-002", "eclipse-003", "eclipse-004"]
+source_license = "Proprietary - Eclipse Laboratories, Inc. (authorized evaluation distribution)"
+
+[verifier]
+timeout_sec = 1200.0
+
+[agent]
+timeout_sec = 3600.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+workdir = "/app"
+
+[verifier.env]
+
+[solution.env]

@@ -1,0 +1,13 @@
+# Thinking Machines Inkling through Tinker's Anthropic-compatible API.
+# TINKER_API_KEY is read from the environment or the gitignored .env file.
+agent:
+  model:
+    api_base: https://tinker.thinkingmachines.dev/services/tinker-prod/anthropic/api
+    api_key: $TINKER_API_KEY
+    max_input_tokens: 200000
+    max_output_tokens: 16384
+    litellm_model_registry: environment/inkling-costs.json
+    completion_kwargs:
+      extra_body:
+        output_config:
+          effort: medium

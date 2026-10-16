@@ -1,0 +1,12 @@
+Compiling 2 files with Solc 0.8.21
+Solc 0.8.21 finished in 1.08s
+Compiler run successful!
+
+Ran 2 tests for test/audit/Eclipse007.sol:Eclipse007_Test
+[PASS] test_audit_feeIsTakenFromAmount() (gas: 129113)
+[PASS] test_keep_zeroFeeWithdrawPaysFullAmount() (gas: 97399)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 1.17ms (412.91µs CPU time)
+
+Ran 1 test suite in 7.88ms (1.17ms CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)
+
+Warning: Found unknown `bytecode_size_limit` config for profile `default` defined in foundry.toml.

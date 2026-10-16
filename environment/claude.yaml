@@ -1,0 +1,6 @@
+# The unscoped Anthropic key must name the Default workspace.
+agent:
+  model:
+    completion_kwargs:
+      extra_headers:
+        anthropic-workspace-id: wrkspc_01F7W2SvkSGt156wCQHf7pu3

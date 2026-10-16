@@ -1,0 +1,20 @@
+diff --git a/smart-contracts/src/v1/Mailbox.sol b/smart-contracts/src/v1/Mailbox.sol
+index 88925ede..b9f5ae90 100644
+--- a/smart-contracts/src/v1/Mailbox.sol
++++ b/smart-contracts/src/v1/Mailbox.sol
+@@ -136,12 +136,12 @@ contract Mailbox is IMailbox, Initializable, UUPSUpgradeable, OwnableUpgradeable
+         bytes32 hash = keccak256(abi.encodePacked(eclipseChainId_, sender_, message_, secParam.nonce));
+         require(ECDSA.recover(hash, secParam.authoritySignature) == relayer, "Invalid relayer signature");
+ 
++        // Update the nonce before the external call.
++        receiveNonces[secParam.nonce] = true;
++
+         // Route the message
+         router.routeIncomingMessage(sender_, message_);
+ 
+-        // Update the nonce
+-        receiveNonces[secParam.nonce] = true;
+-
+         // Emit the message received event
+         emit MessageReceived(sender_, eclipseChainId_, message_);
+ 

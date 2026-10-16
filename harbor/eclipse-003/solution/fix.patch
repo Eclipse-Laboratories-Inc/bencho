@@ -1,0 +1,24 @@
+diff --git a/smart-contracts/src/v1/EtherBridge.sol b/smart-contracts/src/v1/EtherBridge.sol
+index 78f6f026..d985f2d2 100644
+--- a/smart-contracts/src/v1/EtherBridge.sol
++++ b/smart-contracts/src/v1/EtherBridge.sol
+@@ -141,6 +141,7 @@ contract EtherBridge is IEtherBridge, Initializable, UUPSUpgradeable, OwnableUpg
+         correctWithdrawValue(message.amount)
+         nonReentrant
+     {
++        require(message.recipient != address(0), "CommonUtility: zero address");
+         require(address(treasury).balance >= message.amount, "Insufficient funds in treasury for withdrawal");
+ 
+         // Call the Treasury contract to withdraw funds to the recipient
+diff --git a/smart-contracts/src/v1/Mailbox.sol b/smart-contracts/src/v1/Mailbox.sol
+index 88925ede..b95e4f32 100644
+--- a/smart-contracts/src/v1/Mailbox.sol
++++ b/smart-contracts/src/v1/Mailbox.sol
+@@ -157,6 +157,7 @@ contract Mailbox is IMailbox, Initializable, UUPSUpgradeable, OwnableUpgradeable
+         initializedMessage(message_)
+         nonReentrant
+     {
++        require(to_.length > 0, "CommonUtility: empty bytes");
+         // Increment and update the outbound nonce for the recipient
+         uint64 outboundNonce = generateRandomNonce();
+         sendNonces[outboundNonce] = true;

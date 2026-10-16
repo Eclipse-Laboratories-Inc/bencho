@@ -1,0 +1,2 @@
+test_audit_authorizeRejectsZeroFeeReceiver
+test_keep_authorizeAcceptsFeeReceiver

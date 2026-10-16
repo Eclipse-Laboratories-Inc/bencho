@@ -1,0 +1,12 @@
+No files changed, compilation skipped
+
+Ran 1 test for test/audit/Eclipse006.sol:Eclipse006_Test
+[PASS] test_audit_messageSentUsesEclipseChainId() (gas: 3271546)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 828.40µs (407.49µs CPU time)
+
+Ran 1 test for test/unit/v1/mailbox.sol:MailboxTest
+[PASS] test_Mailbox_OnlyModuleCanSendMessage() (gas: 24853)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 548.70µs (91.79µs CPU time)
+
+Ran 2 test suites in 7.81ms (1.38ms CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)
+

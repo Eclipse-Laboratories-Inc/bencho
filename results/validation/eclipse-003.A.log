@@ -1,0 +1,55 @@
+Compiling 4 files with Solc 0.8.21
+Solc 0.8.21 finished in 480.84ms
+Compiler run successful with warnings:
+Warning (2519): This declaration shadows an existing declaration.
+   --> test/unit/v1/mailbox.sol:145:9:
+    |
+145 |         bytes memory eclipseChainId = bytes("UNSUPPORTED");
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Note: The shadowed declaration is here:
+  --> test/unit/v1/mailbox.sol:23:5:
+   |
+23 |     bytes eclipseChainId;
+   |     ^^^^^^^^^^^^^^^^^^^^
+
+Warning (8417): Since the VM version paris, "difficulty" was replaced by "prevrandao", which now returns a random number based on the beacon chain.
+   --> src/v1/Mailbox.sol:202:65:
+    |
+202 |             uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender, nonceCounter)));
+    |                                                                 ^^^^^^^^^^^^^^^^
+
+
+Ran 2 tests for test/audit/Eclipse003.sol:Eclipse003_Test
+[FAIL: next call did not revert as expected] test_audit_mailOutgoingRejectsEmptyDestination() (gas: 102745)
+[FAIL: next call did not revert as expected] test_audit_withdrawRejectsZeroRecipient() (gas: 79379)
+Suite result: FAILED. 0 passed; 2 failed; 0 skipped; finished in 1.13ms (182.00µs CPU time)
+
+Ran 1 test for test/unit/v1/etherBridge.sol:EtherBridge_Test
+[PASS] test_EtherBridge_Success() (gas: 71777)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 506.62µs (161.37µs CPU time)
+
+Ran 1 test for test/unit/v1/mailbox.sol:Mailbox_Test
+[PASS] test_Mailbox_MailOutgoingMessage_Success() (gas: 103645)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 478.16µs (55.29µs CPU time)
+
+Ran 1 test for test/unit/v1/simulatedDeposit.sol:SimulatedMailbox_Test
+[PASS] test_EtherBridge_Success() (gas: 55916)
+Logs:
+  1
+  2
+  3
+  4
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 191.58µs (75.21µs CPU time)
+
+Ran 4 test suites in 7.29ms (2.31ms CPU time): 3 tests passed, 2 failed, 0 skipped (5 total tests)
+
+Failing tests:
+Encountered 2 failing tests in test/audit/Eclipse003.sol:Eclipse003_Test
+[FAIL: next call did not revert as expected] test_audit_mailOutgoingRejectsEmptyDestination() (gas: 102745)
+[FAIL: next call did not revert as expected] test_audit_withdrawRejectsZeroRecipient() (gas: 79379)
+
+Encountered a total of 2 failing tests, 3 tests succeeded
+
+Tip: Run `forge test --rerun` to retry only the 2 failed tests
+

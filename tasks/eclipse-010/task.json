@@ -1,0 +1,18 @@
+{
+  "id": "eclipse-010",
+  "repo": "Eclipse-Laboratories-Inc/syzygy",
+  "base_commit": "26c409b8c563367602f0b8df9f205744a98731c1",
+  "remediated_commit": "8aa0e949d64f20d5559025d0c0fe53f4f3f49db6",
+  "audit": "OtterSec 2024-10-31",
+  "finding_id": "OS-ECS-SUG-00.3",
+  "title": "Authorize accepts a zero fee receiver",
+  "grader": "grader/Eclipse010.sol",
+  "test_relpath": "smart-contracts/test/audit/Eclipse010.sol",
+  "audit_tests": [
+    "test_audit_authorizeRejectsZeroFeeReceiver"
+  ],
+  "preservation_tests": [
+    "test_keep_authorizeAcceptsFeeReceiver"
+  ],
+  "image": "ghcr.io/foundry-rs/foundry:stable"
+}

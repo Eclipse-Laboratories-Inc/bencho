@@ -1,0 +1,24 @@
+Compiling 3 files with Solc 0.8.21
+Solc 0.8.21 finished in 398.14ms
+Compiler run successful!
+
+Ran 1 test for test/audit/Eclipse002.sol:Eclipse002_Test
+[PASS] test_audit_withdrawConvertsLamportsToWei() (gas: 84846)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 934.86µs (200.66µs CPU time)
+
+Ran 1 test for test/unit/v1/simulatedDeposit.sol:SimulatedMailbox_Test
+[PASS] test_EtherBridge_Success() (gas: 55916)
+Logs:
+  1
+  2
+  3
+  4
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 257.70µs (90.62µs CPU time)
+
+Ran 1 test for test/unit/v1/etherBridge.sol:EtherBridge_Test
+[PASS] test_EtherBridge_Success() (gas: 71777)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 697.91µs (125.50µs CPU time)
+
+Ran 3 test suites in 8.28ms (1.89ms CPU time): 3 tests passed, 0 failed, 0 skipped (3 total tests)
+

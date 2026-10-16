@@ -1,0 +1,15 @@
+Compiling 5 files with Solc 0.8.21
+Solc 0.8.21 finished in 4.85s
+Compiler run successful!
+
+Ran 1 test for test/audit/Eclipse009.sol:Eclipse009_Test
+[PASS] test_audit_claimClosesBeforeExternalCall() (gas: 7169827)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.19ms (699.20µs CPU time)
+
+Ran 1 test for test/canonicalBridge/CanonicalBridgeTest.sol:CanonicalBridgeTest
+[PASS] test_ConstructorSetsTheOwnerWithDEFAULT_ADMIN_ROLE() (gas: 2934223)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 2.36ms (125.46µs CPU time)
+
+Ran 2 test suites in 14.59ms (3.54ms CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)
+
+Warning: Found unknown `bytecode_size_limit` config for profile `default` defined in foundry.toml.
