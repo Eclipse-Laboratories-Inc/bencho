@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "ottersec-2024-10/OS-ECS-SUG-00.1": 1,
+    "ottersec-2024-10/OS-ECS-SUG-00.2": 0,
+    "ottersec-2024-10/OS-ECS-SUG-00.3": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.1": 1,
+    "ottersec-2024-10/OS-ECS-SUG-01.2": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.3": 1,
+    "reward": 0.5
+  },
+  "report_findings": 9,
+  "matches": [
+    {
+      "reference_id": "OS-ECS-SUG-00.1",
+      "report_finding": 1,
+      "rationale": "Same defect: the balance check requires amountWei + feeWei even though only amountWei is moved.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-00.2",
+      "report_finding": null,
+      "rationale": "The report has no finding about deleteWithdrawMessage leaving withdrawMsgIdProcessed set.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-00.3",
+      "report_finding": null,
+      "rationale": "The report does not address handling of a zero feeReceiver.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.1",
+      "report_finding": 5,
+      "rationale": "Identifies that claimWithdrawal sets startTime to NEVER after the external treasury call, creating a reentrancy risk.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.2",
+      "report_finding": null,
+      "rationale": "The report does not mention the unused StorageV1 or the unused role constants.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.3",
+      "report_finding": 6,
+      "rationale": "Identifies that _authorizeWithdraw never checks withdrawMsgIdProcessed, so a withdrawal id can be reused.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

@@ -1,0 +1,37 @@
+{
+  "rewards": {
+    "halborn-2024-07/7.1": 1,
+    "halborn-2024-07/7.2": 0,
+    "halborn-2024-07/7.3": 0,
+    "halborn-2024-07/7.4": 0,
+    "reward": 0.25
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "7.1",
+      "report_finding": 2,
+      "rationale": "Finding 2 points to generateRandomNonce, which builds nonces from blockhash, timestamp and coinbase. It says this makes future nonces predictable and allows a DoS through collisions. That is the same root cause as the reference.",
+      "credited": true
+    },
+    {
+      "reference_id": "7.2",
+      "report_finding": null,
+      "rationale": "No report finding mentions revert strings versus custom errors.",
+      "credited": false
+    },
+    {
+      "reference_id": "7.3",
+      "report_finding": null,
+      "rationale": "No report finding raises the centralization risk of owner-only pause/unpause. Finding 20 covers a different issue: Mailbox has no pause function at all.",
+      "credited": false
+    },
+    {
+      "reference_id": "7.4",
+      "report_finding": null,
+      "rationale": "No report finding identifies the owner's unrestricted emergencyWithdraw as a centralization or drain risk. Finding 13 only mentions it in passing in a recommendation, and Finding 18 is about upgrade authority.",
+      "credited": false
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

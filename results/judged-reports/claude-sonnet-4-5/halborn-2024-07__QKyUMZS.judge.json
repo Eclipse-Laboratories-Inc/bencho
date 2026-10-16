@@ -1,0 +1,37 @@
+{
+  "rewards": {
+    "halborn-2024-07/7.1": 1,
+    "halborn-2024-07/7.2": 0,
+    "halborn-2024-07/7.3": 0,
+    "halborn-2024-07/7.4": 0,
+    "reward": 0.25
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "7.1",
+      "report_finding": 1,
+      "rationale": "Finding 1 points to generateRandomNonce, which builds nonces from lastNonce, blockhash, timestamp and coinbase. That makes future nonces predictable and opens a DoS vector. This is the same root cause and location, even though the report frames the impact around sendMessage.",
+      "credited": true
+    },
+    {
+      "reference_id": "7.2",
+      "report_finding": null,
+      "rationale": "No report finding recommends custom errors in place of revert strings.",
+      "credited": false
+    },
+    {
+      "reference_id": "7.3",
+      "report_finding": null,
+      "rationale": "No report finding raises the centralization risk of owner-only pause and unpause. Finding 6 is about the pause dependency between the two contracts, not the owner's privileges.",
+      "credited": false
+    },
+    {
+      "reference_id": "7.4",
+      "report_finding": null,
+      "rationale": "Finding 18 only says the balance check in emergencyWithdraw is redundant. No finding raises the risk that the owner can drain the Treasury without a timelock or limit.",
+      "credited": false
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

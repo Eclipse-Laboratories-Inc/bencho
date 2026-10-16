@@ -1,0 +1,26 @@
+[
+  {
+    "key": "zellic-2024-10/3.1",
+    "id": "3.1",
+    "severity": "High",
+    "title": "Relayer can become insolvent from many small withdrawals",
+    "location": "smart-contracts/src/v1/CanonicalBridge.sol: CanonicalBridge.authorizeWithdraws / _authorizeWithdraw",
+    "description": "The relayer pays gas to authorize every withdrawal on Ethereum, but it is only compensated when the withdrawal is claimed. An attacker can request many tiny withdrawals on Eclipse, forcing expensive authorizeWithdraws calls until the relayer runs out of ether and withdrawals stall."
+  },
+  {
+    "key": "zellic-2024-10/3.2",
+    "id": "3.2",
+    "severity": "Medium",
+    "title": "64-bit withdraw ids can collide",
+    "location": "smart-contracts/src/v1/CanonicalBridge.sol: withdrawMsgIdProcessed, _authorizeWithdraw, validWithdrawMessage",
+    "description": "_authorizeWithdraw rejects any message whose 64-bit withdrawId was already processed. As ids accumulate, random ids collide and legitimate withdrawals revert; an attacker can submit many messages early to raise the collision rate. Keying on the message hash or a wider id avoids this."
+  },
+  {
+    "key": "zellic-2024-10/3.3",
+    "id": "3.3",
+    "severity": "Low",
+    "title": "Deployment script does not grant the treasury withdraw role to the bridge",
+    "location": "smart-contracts/script/v1/deploy/DeployV1.s.sol",
+    "description": "Treasury.withdrawEth requires WITHDRAW_AUTHORITY_ROLE, but DeployV1 never grants that role to the CanonicalBridge. After deployment with this script every claimWithdrawal reverts."
+  }
+]

@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "zellic-2024-03/3.1": 1,
+    "zellic-2024-03/3.2": 1,
+    "zellic-2024-03/3.3": 0,
+    "zellic-2024-03/3.4": 0,
+    "zellic-2024-03/3.5": 0,
+    "zellic-2024-03/3.6": 0,
+    "reward": 0.3333333333333333
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "3.1",
+      "report_finding": 9,
+      "rationale": "Finding 9 identifies that deposit forwards message.amount (lamports) instead of the wei amount to the treasury.",
+      "credited": true
+    },
+    {
+      "reference_id": "3.2",
+      "report_finding": 5,
+      "rationale": "Finding 5 identifies the missing relayer address constraint in the Solana withdraw instruction.",
+      "credited": true
+    },
+    {
+      "reference_id": "3.3",
+      "report_finding": null,
+      "rationale": "The report has no finding about the missing lamport-to-wei conversion in withdraw.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.4",
+      "report_finding": null,
+      "rationale": "The report does not discuss test coverage.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.5",
+      "report_finding": null,
+      "rationale": "Finding 17 is about duplicate chain IDs, not missing zero-address checks on the relayer, destination or recipient.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.6",
+      "report_finding": null,
+      "rationale": "The report does not raise the CEI ordering issue in receiveMessage.",
+      "credited": false
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "ottersec-2024-10/OS-ECS-SUG-00.1": 1,
+    "ottersec-2024-10/OS-ECS-SUG-00.2": 0,
+    "ottersec-2024-10/OS-ECS-SUG-00.3": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.1": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.2": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.3": 1,
+    "reward": 0.3333333333333333
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "OS-ECS-SUG-00.1",
+      "report_finding": 1,
+      "rationale": "Report identifies balance check requiring amountWei + feeWei while only amountWei is sent.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-00.2",
+      "report_finding": null,
+      "rationale": "No finding addresses deleteWithdrawMessage leaving withdrawMsgIdProcessed set.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-00.3",
+      "report_finding": null,
+      "rationale": "No finding about zero feeReceiver handling.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.1",
+      "report_finding": null,
+      "rationale": "No finding about CEI ordering in claimWithdrawal; finding 5 is about front-running/caller restrictions.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.2",
+      "report_finding": null,
+      "rationale": "No finding about unused variables/StorageV1; finding 4 is about role name mismatch.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.3",
+      "report_finding": 2,
+      "rationale": "Report identifies withdrawMsgIdProcessed is never checked in _authorizeWithdraw, allowing withdrawId reuse.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

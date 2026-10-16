@@ -1,0 +1,37 @@
+{
+  "rewards": {
+    "halborn-2024-07/7.1": 1,
+    "halborn-2024-07/7.2": 0,
+    "halborn-2024-07/7.3": 0,
+    "halborn-2024-07/7.4": 0,
+    "reward": 0.25
+  },
+  "report_findings": 14,
+  "matches": [
+    {
+      "reference_id": "7.1",
+      "report_finding": 1,
+      "rationale": "Finding 1 identifies the same defect in generateRandomNonce: the nonce comes from block parameters and the previous nonce, so future nonces can be predicted.",
+      "credited": true
+    },
+    {
+      "reference_id": "7.2",
+      "report_finding": null,
+      "rationale": "No finding recommends replacing revert strings with custom errors. Finding 12 is about the content of an error message, which is a different issue.",
+      "credited": false
+    },
+    {
+      "reference_id": "7.3",
+      "report_finding": null,
+      "rationale": "No finding raises the centralization risk of the owner alone controlling pause and unpause.",
+      "credited": false
+    },
+    {
+      "reference_id": "7.4",
+      "report_finding": null,
+      "rationale": "Finding 5 covers emergencyWithdraw but frames the issue as reentrancy, not as an owner able to drain funds with no timelock or limit. That is a different root cause.",
+      "credited": false
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

@@ -1,0 +1,46 @@
+auditor = "Halborn"
+title = "Eclipse V1 Smart Contract Security Assessment"
+date = "2024-07-22"
+syzygy_commit = "0fc9b797b94e48f77886d6b48b868bf996ad720a"
+scope = [
+  "smart-contracts/src/v1/Treasury.sol",
+  "smart-contracts/src/v1/Mailbox.sol",
+  "smart-contracts/src/v1/EtherBridge.sol",
+  "smart-contracts/src/v1/CommonContainer.sol",
+]
+
+[[findings]]
+id = "7.1"
+severity = "Low"
+title = "Predictable nonce from generateRandomNonce"
+location = "smart-contracts/src/v1/Mailbox.sol: Mailbox.generateRandomNonce, Mailbox.initialize"
+description = """
+generateRandomNonce derives nonces from the previous nonce and block properties (blockhash, timestamp, coinbase), and the initial lastNonce is predictable. Future nonces can be predicted, so a receiveMessage call can pre-mark a future nonce as used and cause a denial of service; only the trusted-relayer restriction lowers the severity.
+"""
+
+[[findings]]
+id = "7.2"
+severity = "Informational"
+title = "Revert strings instead of custom errors"
+location = "smart-contracts/src/v1 (multiple contracts)"
+description = """
+require statements use hard-coded revert strings; custom errors would reduce deployment and runtime gas and give structured error data.
+"""
+
+[[findings]]
+id = "7.3"
+severity = "Informational"
+title = "Centralization risk: owner-only pause and unpause"
+location = "smart-contracts/src/v1: pause / unpause"
+description = """
+pause and unpause are callable only by the owner, a single point of failure if that key is compromised; multi-signature control is recommended.
+"""
+
+[[findings]]
+id = "7.4"
+severity = "Informational"
+title = "Centralization risk: unrestricted emergency withdrawal"
+location = "smart-contracts/src/v1/Treasury.sol: Treasury.emergencyWithdraw"
+description = """
+The owner can withdraw any amount of ether from the Treasury at any time with no timelock, limit, or multi-party approval. A compromised or malicious owner can drain user funds.
+"""

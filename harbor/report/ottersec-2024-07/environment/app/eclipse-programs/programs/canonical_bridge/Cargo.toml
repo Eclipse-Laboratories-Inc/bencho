@@ -1,0 +1,26 @@
+[package]
+name = "canonical_bridge"
+version = "0.1.8"
+description = "Created with Anchor"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "canonical_bridge"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+use_test_authority = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+
+[dependencies]
+anchor-lang = "0.30.0"
+anchor-spl = "0.30.0"
+solana-program = "1.18.1"
+alloy-rlp = { version = "0.3.4", features = ["derive"] }
+base64 = "0.22.0"

@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "zellic-2024-03/3.1": 1,
+    "zellic-2024-03/3.2": 1,
+    "zellic-2024-03/3.3": 0,
+    "zellic-2024-03/3.4": 0,
+    "zellic-2024-03/3.5": 0,
+    "zellic-2024-03/3.6": 0,
+    "reward": 0.3333333333333333
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "3.1",
+      "report_finding": 1,
+      "rationale": "Same defect: lamport amount sent to treasury instead of wei.",
+      "credited": true
+    },
+    {
+      "reference_id": "3.2",
+      "report_finding": 10,
+      "rationale": "Same missing relayer address constraint in withdraw accounts.",
+      "credited": true
+    },
+    {
+      "reference_id": "3.3",
+      "report_finding": null,
+      "rationale": "No finding about withdraw not multiplying lamports to wei.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.4",
+      "report_finding": null,
+      "rationale": "Test coverage not discussed.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.5",
+      "report_finding": null,
+      "rationale": "No zero-address/empty input validation finding for these functions.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.6",
+      "report_finding": null,
+      "rationale": "No CEI ordering finding for receiveMessage.",
+      "credited": false
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

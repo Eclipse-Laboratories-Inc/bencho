@@ -1,0 +1,30 @@
+{
+  "rewards": {
+    "zellic-2024-10/3.1": 0,
+    "zellic-2024-10/3.2": 0,
+    "zellic-2024-10/3.3": 0,
+    "reward": 0.0
+  },
+  "report_findings": 18,
+  "matches": [
+    {
+      "reference_id": "3.1",
+      "report_finding": null,
+      "rationale": "No finding covers the relayer paying gas for many tiny withdrawals that it is never compensated for. Finding 10 only says empty arrays are allowed.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.2",
+      "report_finding": null,
+      "rationale": "No finding mentions 64-bit withdrawId collisions.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.3",
+      "report_finding": null,
+      "rationale": "Finding 3 covers the deploy script skipping Upgrader safeguards and role revocation, but it never says the bridge is not granted WITHDRAW_AUTHORITY_ROLE on the treasury. Finding 18 only suggests generic role checks.",
+      "credited": false
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

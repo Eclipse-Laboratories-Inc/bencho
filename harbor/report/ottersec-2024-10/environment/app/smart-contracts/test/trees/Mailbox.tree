@@ -1,0 +1,98 @@
+Mailbox
+├── when the contract is deployed
+│   └── it should disable initializers
+├── when reinitialize is called
+│   ├── when caller is not DEFAULT_ADMIN_ROLE for reinitialize
+│   │   └── it should revert with AccessControlUnauthorizedAccount(account, role)
+│   └── when caller is DEFAULT_ADMIN_ROLE for reinitialize
+│       ├── it should grant ADMIN_AUTHORITY_ROLE to caller
+│       └── it should emit Reinitialized event
+├── when _authorizeUpgrade is called
+│   ├── when caller is not admin for _authorizeUpgrade
+│   │   └── it should revert with AccessControlUnauthorizedAccount(account, role)
+│   └── when caller is admin for _authorizeUpgrade
+│       └── it should allow the upgrade
+├── when getVersionComponents is called
+│   └── it should return correct version numbers
+├── when addModule is called
+│   ├── when caller is not admin for addModule
+│   │   └── it should revert with AccessControlUnauthorizedAccount(account, role)
+│   ├── when moduleId is already set for addModule
+│   │   └── it should revert with ModuleAddressForModuleIDAlreadySet
+│   └── when conditions are met for addModule
+│       ├── it should set the module address
+│       └── it should grant MODULE_ROLE to the module
+├── when removeModule is called
+│   ├── when caller is not admin for removeModule
+│   │   └── it should revert with AccessControlUnauthorizedAccount(account, role)
+│   ├── when moduleId does not exist for removeModule
+│   │   └── it should revert with ModuleAddressForModuleNotSet
+│   ├── when module address mismatch for removeModule
+│   │   └── it should revert with ModuleAddressMismatch
+│   └── when conditions are met for removeModule
+│       ├── it should remove the module
+│       └── it should revoke MODULE_ROLE from the module
+├── when updateModule is called
+│   ├── when caller is not admin for updateModule
+│   │   └── it should revert with AccessControlUnauthorizedAccount(account, role)
+│   ├── when moduleId does not exist for updateModule
+│   │   └── it should revert with ModuleAddressForModuleNotSet
+│   ├── when old module address mismatch for updateModule
+│   │   └── it should revert with ModuleAddressMismatch
+│   └── when conditions are met for updateModule
+│       ├── it should set the new module address
+│       ├── it should revoke MODULE_ROLE from old module
+│       ├── it should grant MODULE_ROLE to new module
+│       └── it should emit ModuleUpdated event
+├── when receiveMessage is called
+│   ├── when caller is not trusted relayer for receiveMessage
+│   │   └── it should revert with AccessControlUnauthorizedAccount(account, role)
+│   ├── when chain ID is not Eclipse for receiveMessage
+│   │   └── it should revert with NotFromEclipse
+│   ├── when nonce is already used for receiveMessage
+│   │   └── it should revert with NonceAlreadyReceived
+│   ├── when module does not exist for receiveMessage
+│   │   └── it should revert with ModuleDoesNotExist
+│   ├── when module call reverts for receiveMessage
+│   │   └── it should revert with ModuleCallReverted
+│   └── when conditions are met for receiveMessage
+│       ├── it should mark nonce as used
+│       ├── it should call the module
+│       └── it should emit MessageReceived event
+├── when sendMessage is called
+│   ├── when caller is not a module for sendMessage
+│   │   └── it should revert with AccessControlUnauthorizedAccount(account, role)
+│   ├── when chain ID is not Eclipse for sendMessage
+│   │   └── it should revert with NotToEclipse
+│   └── when conditions are met for sendMessage
+│       ├── it should generate a unique nonce
+│       └── it should emit MessageSent event
+├── when generateUniqueNonce is called
+│   ├── it should return a unique nonce
+│   └── it should mark the nonce as used
+├── when view functions are called
+│   ├── when ethereumChainId is called
+│   │   └── it should return the correct Ethereum chain ID
+│   ├── when eclipseChainId is called
+│   │   └── it should return the correct Eclipse chain ID
+│   ├── when moduleById is called
+│   │   └── it should return the correct module address
+│   ├── when receiveNonce is called
+│   │   └── it should return the correct nonce status
+│   └── when sendNonces is called
+│       └── it should return the correct nonce status
+├── when testing reentrancy protection
+│   ├── when receiveMessage is called recursively
+│   │   └── it should revert with AccessControlUnauthorizedAccount(account, role)
+│   └── when sendMessage is called recursively
+│       └── it should revert
+└── when testing edge cases
+    ├── when using maximum uint64 values for nonces
+    │   └── it should handle them correctly
+    ├── when sending very long messages
+    │   └── it should process them correctly
+    ├── when sending empty messages
+    │   └── it should handle them correctly
+    └── when multiple modules interact
+        └── it should maintain correct state
+        

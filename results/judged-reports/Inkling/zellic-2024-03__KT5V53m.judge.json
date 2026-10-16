@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "zellic-2024-03/3.1": 1,
+    "zellic-2024-03/3.2": 0,
+    "zellic-2024-03/3.3": 0,
+    "zellic-2024-03/3.4": 0,
+    "zellic-2024-03/3.5": 0,
+    "zellic-2024-03/3.6": 1,
+    "reward": 0.3333333333333333
+  },
+  "report_findings": 19,
+  "matches": [
+    {
+      "reference_id": "3.1",
+      "report_finding": 1,
+      "rationale": "Finding 1 identifies deposit forwarding message.amount (lamports after dividing) to treasury instead of the full wei deposit.",
+      "credited": true
+    },
+    {
+      "reference_id": "3.2",
+      "report_finding": null,
+      "rationale": "Finding 7 discusses generic authorization/replay in withdraw but never identifies the missing relayer account constraint.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.3",
+      "report_finding": null,
+      "rationale": "No finding covers missing lamport-to-wei conversion in EtherBridge.withdraw.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.4",
+      "report_finding": null,
+      "rationale": "No finding on test coverage.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.5",
+      "report_finding": null,
+      "rationale": "Report's zero-checks concern router/mailbox addresses, not relayer, to_, or recipient.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.6",
+      "report_finding": 5,
+      "rationale": "Finding 5 identifies nonce being set after router.routeIncomingMessage in receiveMessage and recommends reordering.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

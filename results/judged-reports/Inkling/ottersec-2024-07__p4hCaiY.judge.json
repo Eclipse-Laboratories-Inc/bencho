@@ -1,0 +1,79 @@
+{
+  "rewards": {
+    "ottersec-2024-07/OS-ECB-ADV-00": 0,
+    "ottersec-2024-07/OS-ECB-ADV-01": 0,
+    "ottersec-2024-07/OS-ECB-ADV-02": 0,
+    "ottersec-2024-07/OS-ECB-SUG-00": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.1": 1,
+    "ottersec-2024-07/OS-ECB-SUG-01.2": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.3": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.4": 0,
+    "ottersec-2024-07/OS-ECB-SUG-02.1": 0,
+    "ottersec-2024-07/OS-ECB-SUG-02.2": 1,
+    "reward": 0.2
+  },
+  "report_findings": 16,
+  "matches": [
+    {
+      "reference_id": "OS-ECB-ADV-00",
+      "report_finding": null,
+      "rationale": "No report finding covers the missing 128-byte account storage overhead in MIN_DEPOSIT_LAMPORTS.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-ADV-01",
+      "report_finding": null,
+      "rationale": "No report finding says the PDA bump is passed in as a user-supplied argument.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-ADV-02",
+      "report_finding": null,
+      "rationale": "Finding 6 only gives generic advice to validate receiver_ and message_. No finding says MessageSent emits the Ethereum chain id instead of the Eclipse chain id.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-00",
+      "report_finding": null,
+      "rationale": "Finding 14 criticizes unstructured msg! logging and a hard-coded chain_id. It does not mention the 10 KB log truncation.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.1",
+      "report_finding": 7,
+      "rationale": "Finding 7 names the 64-bit nonce, the risk of collision, and the missing already-used check in sendMessage.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.2",
+      "report_finding": null,
+      "rationale": "No report finding says addressArrayInitialized accepts an empty array.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.3",
+      "report_finding": null,
+      "rationale": "Finding 3 is about deposits not being verified against Ethereum events. It does not identify the relayer custody of all bridged funds as the single point of failure.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.4",
+      "report_finding": null,
+      "rationale": "No report finding mentions the missing _disableInitializers calls in the implementation constructors.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-02.1",
+      "report_finding": null,
+      "rationale": "No report finding says invoke_signed is used where plain invoke would do.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-02.2",
+      "report_finding": 16,
+      "rationale": "Finding 16 flags the fixed 1024-byte Configuration and WithdrawalReceipt allocations as wasting rent.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

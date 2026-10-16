@@ -1,0 +1,49 @@
+Treasury::depositEth
+├ when contract is paused
+│ └ it reverts
+├ when caller does not have Depositor role
+│ └ it reverts
+└ when contract is not paused and caller has Depositor role
+    └ it deposits Ether and emits TreasuryDeposit event
+
+Treasury::withdrawEth
+├ when contract is paused
+│ └ it reverts
+├ when caller does not have WithdrawalAuthority role
+│ └ it reverts
+├ when to address is null
+│ └ it reverts with ZeroAddress
+├ when feeReceiver address is null
+│ └ it reverts with ZeroAddress
+├ when withdrawal amount exceeds contract balance
+│ └ it reverts with InsufficientFunds
+└ when contract is not paused and caller has WithdrawalAuthority role and all parameters are valid
+    └ it transfers the correct amount to `to` and fee to `feeReceiver` and emits TreasuryWithdrawal event
+
+Treasury::emergencyWithdraw
+├ when caller does not have Emergency role
+│ └ it reverts
+├ when withdrawal amount exceeds contract balance
+│ └ it reverts with InsufficientFunds
+└ when caller has Emergency role and withdrawal amount is valid
+    └ it transfers the correct amount to caller and emits EmergencyTreasuryWithdraw event
+
+Treasury::pause
+├ when caller does not have Pauser role
+│ └ it reverts
+└ when caller has Pauser role
+    └ it pauses the contract
+
+Treasury::unpause
+├ when caller does not have Starter role
+│ └ it reverts
+└ when caller has Starter role
+    └ it unpauses the contract
+
+Treasury::reinitialize
+├ when contract is already initialized
+│ └ it reverts
+└ when contract is not initialized
+    └ it grants roles to oldOwner
+
+

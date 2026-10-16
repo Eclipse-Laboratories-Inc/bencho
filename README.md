@@ -1,60 +1,38 @@
-# Eclipse Canonical Bridge — Security Benchmark (`bencho`)
+# bencho: Eclipse bridge audits as agent benchmarks
 
-Ten historical security-audit findings from the Eclipse canonical bridge ([`Eclipse-Laboratories-Inc/syzygy`](https://github.com/Eclipse-Laboratories-Inc/syzygy)), packaged both in **Harbor format** (`harbor/eclipse-001` .. `harbor/eclipse-010`) and as a standalone **Foundry / SWE-agent evaluation suite** (`tasks/`, `scripts/`).
+Harbor tasks built from five published security audits (Zellic, OtterSec, Halborn) of the Eclipse canonical bridge. Each task is a snapshot of the code the auditors reviewed. An agent either fixes the defects, graded by hidden Forge tests plus the project's own test suite, or writes an audit report, graded by a judge model against the auditors' findings.
 
-See [`harbor/README.md`](harbor/README.md) for the Harbor package structure, snapshot grouping, and hardening details.
+- [`harbor/README.md`](harbor/README.md): the tasks, reward keys, and verifier hardening
+- [`results/report.md`](results/report.md): Claude Sonnet 4.5 and Inkling results
+- [`results/rejected_findings.md`](results/rejected_findings.md): auditor findings that have no fix grader
 
-## Headline Evaluation Results (Claude Sonnet 4.5 vs. Inkling)
-
-We evaluated `claude-sonnet-4-5` (`claude-sonnet-4-5-20250929`) and Thinking Machines `thinkingmachines/Inkling` under two regimes:
-
-1. **Open-ended discovery audit (Harbor prompt — no finding disclosed)**: The agent receives only the vulnerable smart-contract tree and a general instruction to audit the contracts for security defects and patch what it finds. No audit notes, finding titles, or hidden tests are shown to the agent.
-2. **Ticketed repair (finding disclosed)**: The agent is given an engineering ticket describing the specific audit finding.
-
-A task qualifies as sufficiently hard when **fewer than 3 of 5** attempts score reward `1` (`< 60%` pass rate).
-
-| Task | Snapshot | Audit & Finding | Defect Summary | Discovery: Inkling (5 runs) | Discovery: Claude Sonnet 4.5 (5 runs) | Ticketed Repair: Inkling / Claude | Status |
-|---|---|---|---|---|---|---|---|
-| `eclipse-001` | `70b57c233347` | Zellic 3.1 | `EtherBridge.deposit` forwards `message.amount` (lamports) instead of `amount` (wei) to `Treasury` | 5/5 | 5/5 | 5/5 / 5/5 | Re-calibrating (in-tree `specs/v1/EtherBridge.md` leak removed in `harbor/`) |
-| `eclipse-002` | `70b57c233347` | Zellic 3.3 | `EtherBridge._withdraw` passes lamports to `Treasury.withdraw` without `* 1e9` wei conversion | **0/5** | **0/5** | 5/5 / 5/5 | **Qualifies** |
-| `eclipse-003` | `70b57c233347` | Zellic 3.5 | Missing zero-recipient / empty-destination validation in `EtherBridge` and `Mailbox` | **0/5** | **0/5** | 5/5 / 5/5 | **Qualifies** |
-| `eclipse-004` | `70b57c233347` | Zellic 3.6 | `Mailbox.receiveMessage` marks nonce after external `router` call | **0/5** | **0/5** | 5/5 / 5/5 | **Qualifies** |
-| `eclipse-005` | `bcbec05047af` | OtterSec `OS-ECB-ADV-00` | `MIN_DEPOSIT` omits 128-byte Solana account storage overhead in rent calculation | **0/5** | **0/5** | 5/5 / 5/5 | **Qualifies** |
-| `eclipse-006` | `bcbec05047af` | OtterSec `OS-ECB-ADV-02` | `Mailbox.sendMessage` emits `ethereumChainId` instead of `eclipseChainId` in `MessageSent` | **0/5** | **0/5** | 5/5 / 5/5 | **Qualifies** |
-| `eclipse-007` | `061cba3992df` | OtterSec `OS-ECS-SUG-00.1` | `Treasury` balance check requires `amountWei + feeWei` even though fee is deducted from `amountWei` | **0/5** | 5/5 | 5/5 / 5/5 | Held out (solved by Claude) |
-| `eclipse-008` | `ffb018a68bdc` | OtterSec `OS-ECS-SUG-00.2` | Cancelling a withdrawal leaves `withdrawMsgIdProcessed` permanently set | **0/5** | **2/5** | 5/5 / 5/5 | **Qualifies** |
-| `eclipse-009` | `9b3f09d6a78f` | OtterSec `OS-ECS-SUG-01.1` | `claimWithdrawal` updates withdrawal state to `CLOSED` after external `treasury.withdrawEth` call | **0/5** | 3/5 | 5/5 / 5/5 | Borderline (`0/5` Inkling, `3/5` Claude) |
-| `eclipse-010` | `26c409b8c563` | OtterSec `OS-ECS-SUG-00.3` | `authorizeWithdraw` accepts a zero `feeReceiver` address | **0/5** | 3/5 | 5/5 / 5/5 | Borderline (`0/5` Inkling, `3/5` Claude) |
-
-Detailed breakdowns live in:
-- [`results/report.md`](results/report.md) — overall evaluation summary
-- [`results/discovery/claude-sonnet-4-5/report.md`](results/discovery/claude-sonnet-4-5/report.md) — Claude Sonnet 4.5 discovery audit report & per-attempt JSONL
-- [`results/discovery/inkling/report.md`](results/discovery/inkling/report.md) — Inkling discovery audit report & per-attempt JSONL
-- [`results/report-claude-sonnet-4-5.md`](results/report-claude-sonnet-4-5.md) — Claude Sonnet 4.5 ticketed repair report
-- [`results/rejected_findings.md`](results/rejected_findings.md) — candidate findings excluded during task validation
-
-## Repository Layout
+## Layout
 
 ```
-harbor/eclipse-00N/  Self-contained Harbor task directories (pinned Dockerfile, non-root, no-network, sha256 anti-tamper verifier)
-tasks/eclipse-00N/   Task metadata, hidden Foundry grader, and isolated reference patch
-scripts/             Harbor exporter, task validator, grader, and evaluation runners
-swesmith/            SWE-smith pin (9b74ac0) and Solidity profile
-environment/         SWE-agent Foundry container and model configs
-results/             Validation logs and evaluation reports (Claude Sonnet 4.5 & Inkling)
+audits/<audit>/audit.toml      audited commits, scope, and every auditor finding (the report rubric)
+audits/<audit>/eclipse-NNN/    per graded finding: hidden Forge test, ticket, reference fix.patch
+audits/<audit>/redact.patch    optional: removes in-tree notes that state a finding
+templates/                     Dockerfile, verifiers, and instructions shared by every task
+scripts/export_harbor.py       generates harbor/ from audits/ and templates/
+scripts/run_harbor_eval.sh     runs one agent on one format
+scripts/summarize_results.py   writes results/report.md, results/rewards.csv, and results/judged-reports/
+harbor/                        generated Harbor tasks (committed)
 ```
 
-## Running Harbor Tasks
+Every evaluation runs through Harbor; there is no other harness. `repos/` holds local clones of `syzygy` and `eclipse-programs`, which the exporter reads. It is gitignored.
 
-Verify the oracle patch on a Harbor task:
+## Workflow
 
 ```bash
-harbor run -p harbor/eclipse-001 -a oracle
+.venv/bin/python scripts/export_harbor.py            # regenerate harbor/
+scripts/run_harbor_eval.sh oracle fix                # validate: every finding scores 1
+scripts/run_harbor_eval.sh nop report                # validate: empty report scores 0
+scripts/run_harbor_eval.sh claude fix                # 5 attempts per task
+scripts/run_harbor_eval.sh inkling fix-ticketed
+scripts/run_harbor_eval.sh claude report
+.venv/bin/python scripts/summarize_results.py
 ```
 
-Run Claude Sonnet 4.5 or Inkling across all 10 Harbor tasks:
+The agents are `claude` (Claude Sonnet 4.5), `inkling` (Thinking Machines Inkling through its Anthropic-compatible API), `oracle`, and `nop`. The formats are `fix`, `report`, and `fix-ticketed`. `fix-ticketed` is the fix task with each finding's ticket added to the instruction; it is generated into `.work/` when run and not committed. Keys are read from the gitignored `.env` (`ANTHROPIC_API_KEY`, `TINKER_API_KEY`), and the report judge always uses `ANTHROPIC_API_KEY`.
 
-```bash
-./scripts/run_harbor_eval.sh claude
-./scripts/run_harbor_eval.sh inkling
-```
+To add a finding, add an `[[findings]]` entry to the audit's `audit.toml`. If it has a deterministic fix, also add `task = "eclipse-NNN"` and a directory with the Forge test, `ticket.md`, and a `fix.patch` that applies on top of the earlier patches of that audit. Then regenerate and rerun the oracle and nop checks.

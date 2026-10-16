@@ -1,0 +1,30 @@
+{
+  "rewards": {
+    "zellic-2024-10/3.1": 0,
+    "zellic-2024-10/3.2": 0,
+    "zellic-2024-10/3.3": 1,
+    "reward": 0.3333333333333333
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "3.1",
+      "report_finding": null,
+      "rationale": "Finding 6 is about the batch loop being too long for block gas limits, not about the relayer paying gas for spam micro-withdrawals and being unable to recover it.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.2",
+      "report_finding": null,
+      "rationale": "No finding covers collisions between 64-bit withdrawIds. Finding 10 concerns replay after deletion, which is a different defect.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.3",
+      "report_finding": 3,
+      "rationale": "Finding 3 identifies the same missing WITHDRAW_AUTHORITY_ROLE grant to the bridge in DeployV1.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

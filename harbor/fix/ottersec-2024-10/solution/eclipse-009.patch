@@ -1,0 +1,29 @@
+diff --git a/smart-contracts/src/v1/CanonicalBridge.sol b/smart-contracts/src/v1/CanonicalBridge.sol
+index 216838d1..0d53a336 100644
+--- a/smart-contracts/src/v1/CanonicalBridge.sol
++++ b/smart-contracts/src/v1/CanonicalBridge.sol
+@@ -213,11 +213,15 @@ contract CanonicalBridge is
+         external
+         override
+         whenNotPaused
++        nonReentrant
+         validWithdrawMessage(message)
+     {
+         bytes32 messageHash = withdrawMessageHash(message);
+         if (withdrawMessageStatus(messageHash) != WithdrawStatus.PENDING) revert WithdrawUnauthorized();
+ 
++        startTime[messageHash] = NEVER;
++        emit WithdrawClaimed(message.destination, message.from, messageHash, message);
++
+         // Transfer funds to recipient.
+         bool success = ITreasury(TREASURY).withdrawEth(
+             message.destination,
+@@ -227,8 +231,6 @@ contract CanonicalBridge is
+         );
+         /// @dev The following condition should never occur and the error should be unreachable code.
+         if (!success) revert WithdrawFailed();
+-        startTime[messageHash] = NEVER;
+-        emit WithdrawClaimed(message.destination, message.from, messageHash, message);
+     }
+ 
+     // Admin

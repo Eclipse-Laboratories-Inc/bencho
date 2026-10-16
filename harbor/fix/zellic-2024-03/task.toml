@@ -1,0 +1,36 @@
+schema_version = "1.4"
+
+[task]
+name = "eclipse/fix-zellic-2024-03"
+version = "2.0.0"
+description = "Fix the defects found by the Zellic 2024-03-13 audit of the Eclipse bridge contracts."
+authors = [{ name = "Eclipse Laboratories", email = "daniel@eclipse.builders" }]
+keywords = ["smart-contracts", "solidity", "foundry", "security", "fix"]
+
+[metadata]
+format = "fix"
+auditor = "Zellic"
+audit_title = "Eclipse Smart Contract Security Assessment"
+audit_date = "2024-03-13"
+source_repository = "https://github.com/Eclipse-Laboratories-Inc/syzygy"
+source_commit = "2718982b807249a2c12d406d7e892f5c997d2dab"
+
+graded_keys = ["eclipse-001", "eclipse-002", "eclipse-003", "eclipse-004"]
+source_license = "Proprietary - Eclipse Laboratories, Inc. (authorized evaluation distribution)"
+
+[verifier]
+timeout_sec = 1200.0
+user = "root"
+
+
+[agent]
+timeout_sec = 3600.0
+user = "foundry"
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+workdir = "/app"

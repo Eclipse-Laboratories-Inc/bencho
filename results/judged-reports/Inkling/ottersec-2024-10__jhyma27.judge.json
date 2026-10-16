@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "ottersec-2024-10/OS-ECS-SUG-00.1": 1,
+    "ottersec-2024-10/OS-ECS-SUG-00.2": 1,
+    "ottersec-2024-10/OS-ECS-SUG-00.3": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.1": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.2": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.3": 0,
+    "reward": 0.3333333333333333
+  },
+  "report_findings": 13,
+  "matches": [
+    {
+      "reference_id": "OS-ECS-SUG-00.1",
+      "report_finding": 1,
+      "rationale": "Identifies the balance check using amountWei + feeWei when outflow is only amountWei.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-00.2",
+      "report_finding": 7,
+      "rationale": "Identifies that deleteWithdrawMessage does not reset withdrawMsgIdProcessed.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-00.3",
+      "report_finding": null,
+      "rationale": "No finding addresses zero feeReceiver handling.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.1",
+      "report_finding": null,
+      "rationale": "No finding flags the CEI ordering in claimWithdrawal; finding 2 concerns deposit.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.2",
+      "report_finding": null,
+      "rationale": "Finding 13 covers unused imports in Upgrader, not unused Treasury StorageV1/role constants.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.3",
+      "report_finding": null,
+      "rationale": "Finding 4 says authorization already blocks reuse via withdrawMsgIdProcessed, which contradicts the reference, and targets claimWithdrawal instead of _authorizeWithdraw.",
+      "credited": false
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

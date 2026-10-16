@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "ottersec-2024-10/OS-ECS-SUG-00.1": 1,
+    "ottersec-2024-10/OS-ECS-SUG-00.2": 1,
+    "ottersec-2024-10/OS-ECS-SUG-00.3": 1,
+    "ottersec-2024-10/OS-ECS-SUG-01.1": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.2": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.3": 1,
+    "reward": 0.6666666666666666
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "OS-ECS-SUG-00.1",
+      "report_finding": 1,
+      "rationale": "Same defect: withdrawEth checks the balance against amountWei + feeWei even though the fee is deducted from amountWei.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-00.2",
+      "report_finding": 12,
+      "rationale": "Same defect: deleteWithdrawMessage does not reset withdrawMsgIdProcessed, so a cancelled withdrawal id stays consumed.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-00.3",
+      "report_finding": 9,
+      "rationale": "Same zero-feeReceiver issue in Treasury.withdrawEth: the treasury always requires and pays a feeReceiver, even when it is zero or the fee is zero. The fix proposed (handle it in the treasury) is one of the reference's suggested options. The match is partial because the report does not mention validWithdrawMessage.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.1",
+      "report_finding": null,
+      "rationale": "No report finding raises the checks-effects-interactions ordering or reentrancy risk in claimWithdrawal.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.2",
+      "report_finding": null,
+      "rationale": "Finding 14 is about duplicated constants, not unused StorageV1 or unused role constants.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.3",
+      "report_finding": 2,
+      "rationale": "Same defect: _authorizeWithdraw never checks withdrawMsgIdProcessed, so a withdrawal id can be reused in a different message.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

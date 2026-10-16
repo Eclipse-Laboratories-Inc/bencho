@@ -1,0 +1,219 @@
+"""Summarize the Harbor jobs in results/harbor-jobs.
+
+Writes results/rewards.csv (every reward key of every trial),
+results/judged-reports/ (each graded audit report with the judge's decisions),
+and results/report.md (per-format, per-finding, and per-rubric-item tables).
+"""
+
+from __future__ import annotations
+
+import csv
+import importlib.metadata
+import json
+import shutil
+import statistics
+import sys
+from collections import defaultdict
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from export_harbor import load_audits  # noqa: E402
+
+ROOT = Path(__file__).resolve().parents[1]
+JOBS = ROOT / "results" / "harbor-jobs"
+FORMATS = ("fix", "fix-ticketed", "report")
+MODELS = {"claude-sonnet-4-5": "Claude Sonnet 4.5", "thinkingmachines/Inkling": "Inkling"}
+# claude-code prices every model with Anthropic's table, so its cost is only meaningful for Claude.
+PRICED = {"claude-sonnet-4-5"}
+FORMAT_NOTES = {
+    "fix": "Fix every defect you find; no defect is named.",
+    "fix-ticketed": "Fix the defects described in the audit tickets.",
+    "report": "Write an audit report; a judge model matches it against the auditors' findings.",
+}
+
+
+def unfinished_jobs() -> list[str]:
+    return sorted(
+        path.parent.name
+        for path in JOBS.glob("*/result.json")
+        if not json.loads(path.read_text()).get("finished_at")
+    )
+
+
+def load_trials() -> list[dict]:
+    trials = []
+    skipped = set(unfinished_jobs())
+    for path in sorted(JOBS.glob("*/*/result.json")):
+        if path.parent.parent.name in skipped:
+            continue
+        result = json.loads(path.read_text())
+        name = result["task_name"].removeprefix("eclipse/")
+        fmt = max((fmt for fmt in FORMATS if name.startswith(fmt + "-")), key=len)
+        judge = path.parent / "verifier" / "judge.json"
+        trials.append(
+            {
+                "dir": path.parent,
+                "format": fmt,
+                "audit": name[len(fmt) + 1 :],
+                "model": result["config"]["agent"]["model_name"],
+                "trial": result["trial_name"],
+                "rewards": (result.get("verifier_result") or {}).get("rewards") or {},
+                "error": (result.get("exception_info") or {}).get("exception_type") or "",
+                "cost_usd": (result.get("agent_result") or {}).get("cost_usd") or 0.0,
+                "input_tokens": (result.get("agent_result") or {}).get("n_input_tokens") or 0,
+                "output_tokens": (result.get("agent_result") or {}).get("n_output_tokens") or 0,
+                "judge_model": json.loads(judge.read_text()).get("model") if judge.exists() else None,
+            }
+        )
+    return trials
+
+
+def write_csv(trials: list[dict], path: Path) -> None:
+    with path.open("w", newline="") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(["format", "model", "audit", "trial", "error", "key", "value"])
+        for trial in trials:
+            row = [trial["format"], trial["model"], trial["audit"], trial["trial"], trial["error"]]
+            for key, value in sorted(trial["rewards"].items()) or [("reward", "")]:
+                writer.writerow([*row, key, value])
+
+
+def copy_judged_reports(trials: list[dict], dest: Path) -> None:
+    """Keep each graded report next to the judge's decisions, so the judging can be reviewed."""
+    shutil.rmtree(dest, ignore_errors=True)
+    for trial in trials:
+        verifier = trial["dir"] / "verifier"
+        if trial["format"] != "report" or not (verifier / "judge.json").exists():
+            continue
+        out = dest / trial["model"].split("/")[-1]
+        out.mkdir(parents=True, exist_ok=True)
+        if (verifier / "audit-report.md").exists():
+            shutil.copyfile(verifier / "audit-report.md", out / f"{trial['trial']}.md")
+        shutil.copyfile(verifier / "judge.json", out / f"{trial['trial']}.judge.json")
+
+
+def table(header: list[str], rows: list[list]) -> str:
+    lines = ["| " + " | ".join(header) + " |", "|" + "---|" * len(header)]
+    lines += ["| " + " | ".join(str(cell) for cell in row) + " |" for row in rows]
+    return "\n".join(lines)
+
+
+def solved(trials: list[dict], key: str) -> str:
+    if not trials:
+        return "-"
+    return f"{sum(trial['rewards'].get(key, 0) for trial in trials):g}/{len(trials)}"
+
+
+def report(trials: list[dict], audits: list[dict]) -> str:
+    models = [model for model in MODELS if any(trial["model"] == model for trial in trials)]
+    by = defaultdict(list)
+    for trial in trials:
+        by[trial["format"], trial["model"]].append(trial)
+        by[trial["format"], trial["model"], trial["audit"]].append(trial)
+    formats = [fmt for fmt in FORMATS if any(trial["format"] == fmt for trial in trials)]
+    judges = sorted({trial["judge_model"] for trial in trials if trial["judge_model"]})
+
+    out = [
+        "# Results",
+        "",
+        "Generated by `scripts/summarize_results.py` from the Harbor jobs in `results/harbor-jobs`, which are not committed. "
+        "`rewards.csv` has every reward key of every trial. `judged-reports/` has every graded audit report "
+        "with the judge's match and rationale for each auditor finding.",
+        "",
+        *(
+            [f"Still running, not included: {', '.join(f'`{job}`' for job in unfinished_jobs())}.", ""]
+            if unfinished_jobs()
+            else []
+        ),
+        "Every agent ran in Harbor's `claude-code` harness with medium reasoning effort, "
+        f"5 attempts per task. The report judge was {', '.join(f'`{judge}`' for judge in judges) or 'not used'}.",
+        "",
+        "## Mean reward",
+        "",
+        "For the fix formats the reward is the fraction of the audit's graded findings that a trial fixed. "
+        "A finding counts only when its hidden tests pass and the project's existing test suite has no regressions. "
+        "For the report format it is the fraction of the auditors' findings the report identified. "
+        "Trials that errored score 0 and are counted in the errored row.",
+        "",
+    ]
+    rows = []
+    for fmt in formats:
+        cells = []
+        for model in models:
+            group = by[fmt, model]
+            mean = statistics.mean(trial["rewards"].get("reward", 0) for trial in group) if group else None
+            cells.append(f"{mean:.2f} (n={len(group)})" if group else "-")
+        rows.append([f"`{fmt}`: {FORMAT_NOTES[fmt]}", *cells])
+    for fmt in formats:
+        if fmt.startswith("fix"):
+            rows.append([f"`{fmt}`: no regressions", *(solved(by[fmt, model], "regression") for model in models)])
+    rows.append(["Errored trials", *(sum(1 for t in trials if t["model"] == model and t["error"]) for model in models)])
+    rows.append(
+        [
+            "Agent tokens, input / output (millions)",
+            *(
+                f"{sum(t['input_tokens'] for t in trials if t['model'] == m) / 1e6:.1f} / "
+                f"{sum(t['output_tokens'] for t in trials if t['model'] == m) / 1e6:.2f}"
+                for m in models
+            ),
+        ]
+    )
+    rows.append(
+        [
+            "Agent cost (USD, Anthropic list prices)",
+            *(f"{sum(t['cost_usd'] for t in trials if t['model'] == m):.2f}" if m in PRICED else "n/a" for m in models),
+        ]
+    )
+    out += [table(["", *(MODELS[model] for model in models)], rows), ""]
+
+    fix_formats = [fmt for fmt in formats if fmt.startswith("fix")]
+    if fix_formats:
+        out += ["## Fix formats: attempts that fixed each finding", ""]
+        header = ["Finding", "Audit", "Title"] + [f"{MODELS[m]}, `{fmt}`" for m in models for fmt in fix_formats]
+        rows = []
+        for audit in audits:
+            for finding in audit["findings"]:
+                if "task" not in finding:
+                    continue
+                cells = [solved(by[fmt, m, audit["id"]], finding["task"]) for m in models for fmt in fix_formats]
+                rows.append([finding["task"], audit["id"], finding["title"], *cells])
+        out += [table(header, sorted(rows)), ""]
+
+    if "report" in formats:
+        out += ["## Report format: attempts that identified each auditor finding", ""]
+        rows = []
+        for audit in audits:
+            for finding in audit["findings"]:
+                key = f"{audit['id']}/{finding['id']}"
+                cells = [solved(by["report", m, audit["id"]], key) for m in models]
+                rows.append([audit["id"], finding["id"], finding["severity"], finding["title"], *cells])
+        out += [table(["Audit", "Finding", "Severity", "Title", *(MODELS[m] for m in models)], rows), ""]
+
+    errors = [trial for trial in trials if trial["error"]]
+    if errors:
+        out += ["## Errored trials", ""]
+        out += [table(["Trial", "Format", "Model", "Error"], [[t["trial"], t["format"], MODELS.get(t["model"], t["model"]), t["error"]] for t in errors]), ""]
+
+    out += [
+        "## Notes",
+        "",
+        f"- Harbor {importlib.metadata.version('harbor')}. Inkling ran in the same `claude-code` harness against "
+        "Thinking Machines' Anthropic-compatible API.",
+        "- The judge model does not accept a fixed temperature, so rerunning the judge on the same report can "
+        "credit a borderline finding differently.",
+        "- `fix-ticketed` names each defect, so it measures repair, not discovery. `fix` and `report` measure discovery.",
+        "",
+    ]
+    return "\n".join(out)
+
+
+def main() -> None:
+    trials = load_trials()
+    write_csv(trials, ROOT / "results" / "rewards.csv")
+    copy_judged_reports(trials, ROOT / "results" / "judged-reports")
+    (ROOT / "results" / "report.md").write_text(report(trials, load_audits()))
+    print(f"{len(trials)} trials")
+
+
+if __name__ == "__main__":
+    main()

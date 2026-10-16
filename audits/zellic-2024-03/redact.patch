@@ -1,0 +1,37 @@
+diff --git a/smart-contracts/README.md b/smart-contracts/README.md
+index d0b9bd29..dc066a02 100644
+--- a/smart-contracts/README.md
++++ b/smart-contracts/README.md
+@@ -11,7 +11,6 @@ Currently there are a few issues that are not yet resolved in the smart-contract
+ * UUPS proxy upgrades have not been fully designed, implemented and tested though some partial research has been done.  UUPS is useful in that we plan on eventually freezing the upgradeability of these contracts.
+ * It is intended that a different multi-sig deployment authority will deploy the contracts, but the treasury will be managed by another party or perhaps will remain not upgradeable.
+ * Withdraws have not been unit tested
+-* The EtherBridge was originally intended to store fees and not locked ether. The Treasury is intended to store locked ether, but currently it does not behave this way. 
+ * Registry should potentially be refactored to use an AccessList or a better RBA mechanism that is built into a library like Open-Zeppelin instead of using our custom one.
+ * The project only has a simple integration test for deposits and needs more thorough integration testing.
+ 
+diff --git a/smart-contracts/specs/v1/EtherBridge.md b/smart-contracts/specs/v1/EtherBridge.md
+index 4a78edbc..e8d91f58 100644
+--- a/smart-contracts/specs/v1/EtherBridge.md
++++ b/smart-contracts/specs/v1/EtherBridge.md
+@@ -43,6 +43,3 @@ function estimateFee() public view returns (uint256 fee)
+ 
+ function minDepositAmount() public pure returns (uin
+ 
+-## Note
+-
+-Currently, the withdraw method has not been tested.  There is likely also a bug where the funds are not stored in the Treasury, but instead get stored in the EtherBridge.  The intention is to fix this and have only the fees stored in the EtherBridge though there is the possiblity that the Treasury contract can be totally removed if unnecessary.  One goal is to ensure that the operator (multi-sig authority) which deploys and upgrades the EtherBridge cannot be the same operator as the one who can make upgrades to the Treasury.  It may be the case that the Treasury w should not be upgraded under any circumstances, but the security analysis has not yet been done on this. 
+\ No newline at end of file
+diff --git a/smart-contracts/specs/v1/Mailbox.md b/smart-contracts/specs/v1/Mailbox.md
+index 3ac82676..12669137 100644
+--- a/smart-contracts/specs/v1/Mailbox.md
++++ b/smart-contracts/specs/v1/Mailbox.md
+@@ -47,7 +47,7 @@ The receiveMessage method allows a single trusted relayer to submit incoming mes
+ - The chainId must be 32 bytes long and match the Eclipse chain id; otherwise, it reverts with an error message.
+ - The nonce must be unique; otherwise, it reverts with an error message.
+ - The sequencer's signature must validate; otherwise, it reverts with an error message.
+-- On successful validation, it routes the message to the intended destination and updates the nonce mapping.
++- On successful validation, it records the message nonce and routes the message to the intended destination.
+ 
+ ### MailboxSendMessage Method
+ 

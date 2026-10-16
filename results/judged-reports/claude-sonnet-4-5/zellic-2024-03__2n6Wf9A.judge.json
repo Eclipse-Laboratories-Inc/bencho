@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "zellic-2024-03/3.1": 1,
+    "zellic-2024-03/3.2": 0,
+    "zellic-2024-03/3.3": 0,
+    "zellic-2024-03/3.4": 0,
+    "zellic-2024-03/3.5": 0,
+    "zellic-2024-03/3.6": 0,
+    "reward": 0.16666666666666666
+  },
+  "report_findings": 19,
+  "matches": [
+    {
+      "reference_id": "3.1",
+      "report_finding": 1,
+      "rationale": "Same defect: deposit sends message.amount (lamports) to the treasury instead of the wei amount.",
+      "credited": true
+    },
+    {
+      "reference_id": "3.2",
+      "report_finding": null,
+      "rationale": "Finding 2 is about nonce replay and repeated withdrawals. It does not mention the missing constraint on the relayer account.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.3",
+      "report_finding": null,
+      "rationale": "No finding reports the missing lamport-to-wei conversion in EtherBridge.withdraw.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.4",
+      "report_finding": null,
+      "rationale": "No finding covers gaps in the test suite.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.5",
+      "report_finding": null,
+      "rationale": "No finding reports a missing zero-address check for the relayer in Mailbox.initialize, an empty to_ in mailOutgoingMessage, or a zero recipient in EtherBridge.withdraw. Finding 19 is about chain ID length and finding 15 is about the Solana-side destination format.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.6",
+      "report_finding": null,
+      "rationale": "No finding reports that receiveMessage makes the routing call before updating the nonce. Finding 4 is about unbounded gas in Router.",
+      "credited": false
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

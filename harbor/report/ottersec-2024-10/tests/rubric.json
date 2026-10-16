@@ -1,0 +1,50 @@
+[
+  {
+    "key": "ottersec-2024-10/OS-ECS-SUG-00.1",
+    "id": "OS-ECS-SUG-00.1",
+    "severity": "Informational",
+    "title": "Treasury balance check counts the fee twice",
+    "location": "smart-contracts/src/v1/Treasury.sol: Treasury.withdrawEth",
+    "description": "The fee is deducted from amountWei, but withdrawEth requires the balance to cover amountWei + feeWei. Withdrawals that the treasury can fully pay revert with InsufficientFunds."
+  },
+  {
+    "key": "ottersec-2024-10/OS-ECS-SUG-00.2",
+    "id": "OS-ECS-SUG-00.2",
+    "severity": "Informational",
+    "title": "Cancelling a withdrawal leaves its id consumed",
+    "location": "smart-contracts/src/v1/CanonicalBridge.sol: CanonicalBridge.deleteWithdrawMessage",
+    "description": "deleteWithdrawMessage clears the message's startTime but not withdrawMsgIdProcessed[withdrawId], so a cancelled withdrawal id can never be authorized again and the contract state is inconsistent."
+  },
+  {
+    "key": "ottersec-2024-10/OS-ECS-SUG-00.3",
+    "id": "OS-ECS-SUG-00.3",
+    "severity": "Informational",
+    "title": "Zero fee receiver is not handled consistently",
+    "location": "smart-contracts/src/v1/CanonicalBridge.sol: validWithdrawMessage; smart-contracts/src/v1/Treasury.sol: withdrawEth",
+    "description": "validWithdrawMessage accepts a zero feeReceiver, while Treasury.withdrawEth always tries to pay the fee to it. Either reject a zero fee receiver when authorizing or handle it in the treasury."
+  },
+  {
+    "key": "ottersec-2024-10/OS-ECS-SUG-01.1",
+    "id": "OS-ECS-SUG-01.1",
+    "severity": "Informational",
+    "title": "claimWithdrawal updates state after the external call",
+    "location": "smart-contracts/src/v1/CanonicalBridge.sol: CanonicalBridge.claimWithdrawal",
+    "description": "claimWithdrawal calls Treasury.withdrawEth, which sends ether to the destination, before setting startTime[messageHash] = NEVER. The state update should come before the external call (checks-effects-interactions) to rule out reentrancy."
+  },
+  {
+    "key": "ottersec-2024-10/OS-ECS-SUG-01.2",
+    "id": "OS-ECS-SUG-01.2",
+    "severity": "Informational",
+    "title": "Unused variables",
+    "location": "smart-contracts/src/v1/Treasury.sol: StorageV1; role constants",
+    "description": "Several variables, including Treasury's StorageV1 and some role constants, are never used and should be removed."
+  },
+  {
+    "key": "ottersec-2024-10/OS-ECS-SUG-01.3",
+    "id": "OS-ECS-SUG-01.3",
+    "severity": "Informational",
+    "title": "Authorization does not check withdrawMsgIdProcessed",
+    "location": "smart-contracts/src/v1/CanonicalBridge.sol: CanonicalBridge._authorizeWithdraw",
+    "description": "_authorizeWithdraw only rejects a message whose hash already exists; it does not check withdrawMsgIdProcessed, so the same withdrawal id can be reused in a different message."
+  }
+]

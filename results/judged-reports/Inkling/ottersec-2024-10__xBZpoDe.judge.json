@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "ottersec-2024-10/OS-ECS-SUG-00.1": 1,
+    "ottersec-2024-10/OS-ECS-SUG-00.2": 1,
+    "ottersec-2024-10/OS-ECS-SUG-00.3": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.1": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.2": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.3": 1,
+    "reward": 0.5
+  },
+  "report_findings": 16,
+  "matches": [
+    {
+      "reference_id": "OS-ECS-SUG-00.1",
+      "report_finding": 1,
+      "rationale": "Identifies totalAmount = amountWei + feeWei over-strict balance check in withdrawEth.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-00.2",
+      "report_finding": 3,
+      "rationale": "deleteWithdrawMessage does not clear withdrawMsgIdProcessed, blocking reuse.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-00.3",
+      "report_finding": null,
+      "rationale": "No finding addresses zero feeReceiver handling.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.1",
+      "report_finding": null,
+      "rationale": "No finding about CEI ordering in claimWithdrawal.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.2",
+      "report_finding": null,
+      "rationale": "No finding about unused variables.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.3",
+      "report_finding": 2,
+      "rationale": "withdrawMsgIdProcessed never read in _authorizeWithdraw, allowing id reuse.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

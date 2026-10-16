@@ -1,0 +1,79 @@
+{
+  "rewards": {
+    "ottersec-2024-07/OS-ECB-ADV-00": 0,
+    "ottersec-2024-07/OS-ECB-ADV-01": 1,
+    "ottersec-2024-07/OS-ECB-ADV-02": 0,
+    "ottersec-2024-07/OS-ECB-SUG-00": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.1": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.2": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.3": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.4": 0,
+    "ottersec-2024-07/OS-ECB-SUG-02.1": 0,
+    "ottersec-2024-07/OS-ECB-SUG-02.2": 1,
+    "reward": 0.2
+  },
+  "report_findings": 19,
+  "matches": [
+    {
+      "reference_id": "OS-ECB-ADV-00",
+      "report_finding": null,
+      "rationale": "No finding says the 128-byte account storage overhead is missing from MIN_DEPOSIT_LAMPORTS. Finding 7 is about the Solana side having no minimum check, and finding 19 is about a comment and the discriminator, so neither is this defect.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-ADV-01",
+      "report_finding": 2,
+      "rationale": "Finding 2 says deposit takes the bump as a user-supplied argument and stores it instead of using ctx.bumps. Finding 3 reports the same defect in withdraw.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECB-ADV-02",
+      "report_finding": null,
+      "rationale": "No finding says MessageSent emits the Ethereum chain id as the destination.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-00",
+      "report_finding": null,
+      "rationale": "No finding covers truncation of msg! logs.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.1",
+      "report_finding": null,
+      "rationale": "Finding 1 blames predictable block-property randomness. The reference defect is the 64-bit width and the missing check for nonce reuse, which is a different root cause.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.2",
+      "report_finding": null,
+      "rationale": "No finding covers addressArrayInitialized accepting an empty array.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.3",
+      "report_finding": null,
+      "rationale": "No finding covers the relayer holding custody of bridged funds.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.4",
+      "report_finding": null,
+      "rationale": "No finding mentions the missing _disableInitializers call.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-02.1",
+      "report_finding": null,
+      "rationale": "No finding covers using invoke_signed where invoke would do.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-02.2",
+      "report_finding": 11,
+      "rationale": "Finding 11 identifies the oversized 1024-byte WithdrawalReceipt allocation. Finding 12 covers Configuration, but each reference finding can match only one report finding.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

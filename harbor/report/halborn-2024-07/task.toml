@@ -1,0 +1,42 @@
+schema_version = "1.4"
+
+[task]
+name = "eclipse/report-halborn-2024-07"
+version = "2.0.0"
+description = "Audit the Eclipse bridge code that Halborn audited on 2024-07-22 and write a report."
+authors = [{ name = "Eclipse Laboratories", email = "daniel@eclipse.builders" }]
+keywords = ["smart-contracts", "solidity", "foundry", "security", "report"]
+
+[metadata]
+format = "report"
+auditor = "Halborn"
+audit_title = "Eclipse V1 Smart Contract Security Assessment"
+audit_date = "2024-07-22"
+source_repository = "https://github.com/Eclipse-Laboratories-Inc/syzygy"
+source_commit = "0fc9b797b94e48f77886d6b48b868bf996ad720a"
+
+graded_keys = ["halborn-2024-07/7.1", "halborn-2024-07/7.2", "halborn-2024-07/7.3", "halborn-2024-07/7.4"]
+source_license = "Proprietary - Eclipse Laboratories, Inc. (authorized evaluation distribution)"
+
+[verifier]
+timeout_sec = 1200.0
+user = "root"
+network_mode = "allowlist"
+allowed_hosts = ["api.anthropic.com"]
+
+[verifier.env]
+JUDGE_API_KEY = "${JUDGE_API_KEY}"
+JUDGE_MODEL = "${JUDGE_MODEL:-claude-opus-5-5}"
+JUDGE_WORKSPACE_ID = "${JUDGE_WORKSPACE_ID:-}"
+
+[agent]
+timeout_sec = 3600.0
+user = "foundry"
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+workdir = "/app"

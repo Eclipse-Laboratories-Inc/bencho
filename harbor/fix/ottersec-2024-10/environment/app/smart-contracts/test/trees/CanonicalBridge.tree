@@ -1,0 +1,121 @@
+CanonicalBridge::constructor
+├── it sets the owner with DEFAULT_ADMIN_ROLE
+├── it grants PAUSER_ROLE to the owner
+├── it grants STARTER_ROLE to the owner
+├── it grants WITHDRAWAL_AUTHORITY_ROLE to the owner
+├── it grants WITHDRAWAL_CANCELLER_ROLE to the owner
+├── it grants FRAUD_WINDOW_SETTER_ROLE to the owner
+├── it sets the TREASURY address
+├── it sets the MAILBOX address
+├── it emits a Deployed event
+└── it sets the default fraud window duration
+
+CanonicalBridge::deposit
+├── when the contract is paused
+│   └── it reverts
+├── when the recipient is not initialized
+│   └── it reverts
+├── when the deposit amount does not match ETH sent
+│   └── it reverts with DepositAmountMismatch
+├── when the deposit amount is not divisible by WEI_PER_LAMPORT
+│   └── it reverts with FractionalValueNotAllowed
+├── when the deposit amount is less than MIN_DEPOSIT
+│   └── it reverts with DepositLessThanMinimum
+├── when the transfer to TREASURY fails
+│   └── it reverts with TransferFailed
+└── when all deposit conditions are met
+    ├── it transfers the deposit to the TREASURY
+    ├── it sends a deposit message to the MAILBOX
+    └── it emits a Deposited event
+
+CanonicalBridge::authorizeWithdrawals
+├── when the contract is paused for authorizeWithdrawals
+│   └── it reverts
+├── when the caller is not WITHDRAWAL_AUTHORITY_ROLE for authorizeWithdrawals
+│   └── it reverts with AccessControlUnauthorizedAccount
+└── when all authorizeWithdrawals conditions are met
+    ├── it decodes the messages
+    └── it calls _authorizeWithdrawal for each message
+
+CanonicalBridge::authorizeWithdrawal
+├── when the contract is paused for authorizeWithdrawal
+│   └── it reverts
+├── when the caller is not WITHDRAWAL_AUTHORITY_ROLE for authorizeWithdrawal
+│   └── it reverts with AccessControlUnauthorizedAccount
+└── when all authorizeWithdrawal conditions are met
+    ├── it decodes the message
+    └── it calls _authorizeWithdrawal for the message
+
+CanonicalBridge::claimWithdrawal
+├── when the contract is paused for claimWithdrawal
+│   └── it reverts
+├── when the withdrawal is not authorized
+│   └── it reverts with WithdrawalUnauthorized
+├── when the withdrawal fails
+│   └── it reverts with WithdrawalFailed
+└── when all claimWithdrawal conditions are met
+    ├── it transfers funds to the recipient
+    ├── it transfers the fee to the fee receiver
+    ├── it marks the withdrawal as claimed
+    └── it emits a WithdrawalClaimed event
+
+CanonicalBridge::deleteWithdrawMessage
+├── when called with a message
+│   ├── when the caller is not WITHDRAWAL_CANCELLER_ROLE for message deletion
+│   │   └── it reverts with AccessControlUnauthorizedAccount
+│   ├── when the withdraw message is invalid
+│   │   └── it reverts with InvalidWithdrawMessage
+│   └── when all message deletion conditions are met
+│       ├── it deletes the withdraw message
+│       └── it emits a WithdrawMessageDeleted event
+└── when called with a hash
+    ├── when the caller is not WITHDRAWAL_CANCELLER_ROLE for hash deletion
+    │   └── it reverts with AccessControlUnauthorizedAccount
+    ├── when the withdrawal status is not PENDING
+    │   └── it reverts with CannotCancel
+    └── when all hash deletion conditions are met
+        ├── it deletes the withdraw message
+        └── it emits a WithdrawMessageHashDeleted event
+
+CanonicalBridge::setFraudWindowDuration
+├── when the caller is not FRAUD_WINDOW_SETTER_ROLE
+│   └── it reverts with AccessControlUnauthorizedAccount
+├── when the duration is less than MIN_fraudWindowDuration
+│   └── it reverts with DurationTooShort
+└── when all setFraudWindowDuration conditions are met
+    ├── it sets the new fraud window duration
+    └── it emits a FraudWindowSet event
+
+CanonicalBridge::pause
+├── when the caller is not PAUSER_ROLE
+│   └── it reverts with AccessControlUnauthorizedAccount
+└── when the caller has PAUSER_ROLE
+    ├── it pauses the contract
+    └── it emits a Paused event
+
+CanonicalBridge::unpause
+├── when the caller is not STARTER_ROLE
+│   └── it reverts with AccessControlUnauthorizedAccount
+└── when the caller has STARTER_ROLE
+    ├── it unpauses the contract
+    └── it emits an Unpaused event
+
+CanonicalBridge::withdrawMessageStatus
+├── when called with a message
+│   ├── when the withdraw message is invalid for status check
+│   │   └── it reverts with InvalidWithdrawMessage
+│   └── when the message is valid for status check
+│       └── it returns the correct withdrawal status
+└── when called with a hash
+    ├── when the message is unknown
+    │   └── it returns WithdrawStatus.UNKNOWN
+    ├── when the message is closed
+    │   └── it returns WithdrawStatus.CLOSED
+    └── when the message is pending
+        └── it returns WithdrawStatus.PENDING
+
+CanonicalBridge::withdrawMessageHash
+└── it returns the correct hash of the withdraw message
+
+CanonicalBridge::getVersionComponents
+└── it returns the correct version numbers

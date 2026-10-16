@@ -1,0 +1,82 @@
+[
+  {
+    "key": "ottersec-2024-07/OS-ECB-ADV-00",
+    "id": "OS-ECB-ADV-00",
+    "severity": "Medium",
+    "title": "Minimum deposit ignores Solana account storage overhead",
+    "location": "smart-contracts/src/v1/EtherBridge.sol: MIN_DEPOSIT_LAMPORTS / MIN_DEPOSIT",
+    "description": "MIN_DEPOSIT_LAMPORTS is meant to make the deposit receipt on Eclipse rent-exempt, but the rent calculation omits Solana's 128-byte ACCOUNT_STORAGE_OVERHEAD. The minimum deposit can be below the rent-exempt balance, so deposits may not be rent-exempt."
+  },
+  {
+    "key": "ottersec-2024-07/OS-ECB-ADV-01",
+    "id": "OS-ECB-ADV-01",
+    "severity": "Low",
+    "title": "PDA bump is passed as an instruction argument",
+    "location": "eclipse-programs/programs/canonical_bridge/src/instructions/deposit.rs, withdraw.rs",
+    "description": "deposit and withdraw take the bump for the deposit_receipt and withdrawal_receipt PDAs as a user-supplied argument and store it, instead of using the canonical bump Anchor derives from the account context. A wrong bump can be recorded for the receipt accounts."
+  },
+  {
+    "key": "ottersec-2024-07/OS-ECB-ADV-02",
+    "id": "OS-ECB-ADV-02",
+    "severity": "Low",
+    "title": "MessageSent emits the Ethereum chain id as the destination",
+    "location": "smart-contracts/src/v1/Mailbox.sol: Mailbox.sendMessage",
+    "description": "sendMessage emits MessageSent with encodeChainId($.ethereumChainId) as the destination chain id. Messages go to Eclipse, so off-chain consumers that route on this field see the wrong chain; it should be the Eclipse chain id."
+  },
+  {
+    "key": "ottersec-2024-07/OS-ECB-SUG-00",
+    "id": "OS-ECB-SUG-00",
+    "severity": "Informational",
+    "title": "Outbox message logs can be truncated",
+    "location": "eclipse-programs/programs/canonical_bridge/src/instructions/withdraw.rs: log_outbox_message",
+    "description": "log_outbox_message emits the encoded WithdrawalMessageSent with msg!. Solana truncates program logs beyond 10 KB, so large messages lose event data; CPI events avoid the limit."
+  },
+  {
+    "key": "ottersec-2024-07/OS-ECB-SUG-01.1",
+    "id": "OS-ECB-SUG-01.1",
+    "severity": "Informational",
+    "title": "64-bit outbound nonce can collide",
+    "location": "smart-contracts/src/v1/Mailbox.sol: Mailbox.sendMessage / generateRandomNonce",
+    "description": "sendMessage takes a uint64 nonce from generateRandomNonce and stores it in sendNonces without checking whether it was already used. A 64-bit random nonce makes collisions plausible at high volume; use a wider nonce and reject reuse."
+  },
+  {
+    "key": "ottersec-2024-07/OS-ECB-SUG-01.2",
+    "id": "OS-ECB-SUG-01.2",
+    "severity": "Informational",
+    "title": "addressArrayInitialized accepts an empty array",
+    "location": "smart-contracts/src/v1/CommonContainer.sol: addressArrayInitialized modifier",
+    "description": "addressArrayInitialized checks every element is non-zero but never checks that the array is non-empty, so an empty array passes validation."
+  },
+  {
+    "key": "ottersec-2024-07/OS-ECB-SUG-01.3",
+    "id": "OS-ECB-SUG-01.3",
+    "severity": "Informational",
+    "title": "Bridge funds are custodied by the relayer account",
+    "location": "eclipse-programs/programs/canonical_bridge: relayer custody design",
+    "description": "The relayer account holds custody of all bridged funds on the Solana side. If that key is compromised every bridged fund is lost; a program-derived account governed by program logic would remove that single point of failure."
+  },
+  {
+    "key": "ottersec-2024-07/OS-ECB-SUG-01.4",
+    "id": "OS-ECB-SUG-01.4",
+    "severity": "Informational",
+    "title": "Implementation contracts can be initialized directly",
+    "location": "smart-contracts/src/v1/EtherBridge.sol, Treasury.sol, Mailbox.sol: constructors",
+    "description": "The upgradeable implementations of EtherBridge, Treasury, and Mailbox do not call _disableInitializers in a constructor, so anyone can call initialize on the implementation address, become its owner, and potentially brick it."
+  },
+  {
+    "key": "ottersec-2024-07/OS-ECB-SUG-02.1",
+    "id": "OS-ECB-SUG-02.1",
+    "severity": "Informational",
+    "title": "invoke_signed used where invoke suffices",
+    "location": "eclipse-programs/programs/canonical_bridge/src/instructions/deposit.rs, withdraw.rs",
+    "description": "deposit and withdraw call invoke_signed even though no signer seeds are needed; plain invoke is sufficient."
+  },
+  {
+    "key": "ottersec-2024-07/OS-ECB-SUG-02.2",
+    "id": "OS-ECB-SUG-02.2",
+    "severity": "Informational",
+    "title": "Oversized account allocations",
+    "location": "eclipse-programs/programs/canonical_bridge/src/state.rs: Configuration::size, WithdrawalReceipt::size",
+    "description": "Configuration and WithdrawalReceipt allocate 1024 bytes each, although they need about 11 and 57 bytes. The excess wastes rent."
+  }
+]

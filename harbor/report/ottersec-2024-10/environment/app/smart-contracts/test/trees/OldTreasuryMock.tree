@@ -1,0 +1,16 @@
+OldTreasuryMockTests
+├── when owner is queried
+│   └── it should return the deployer address
+├── when a non-owner calls an onlyOwner function
+│   └── it should revert with an ownership error
+├── when ownership is transferred by a nonOwner
+│   └── it should revert with an ownership error
+├── when ownership is transferred to the zero address
+│   └── it should revert with an invalid address error
+└── when ownership is transferred by the owner
+    ├── when to a nonZero address
+    │   └── it should transfer ownership to the new address
+    ├── when the new owner calls an onlyOwner function
+    │   └── it should succeed
+    └── when the old owner calls an onlyOwner function
+        └── it should revert with an ownership error

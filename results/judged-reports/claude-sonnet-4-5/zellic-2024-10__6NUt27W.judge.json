@@ -1,0 +1,30 @@
+{
+  "rewards": {
+    "zellic-2024-10/3.1": 0,
+    "zellic-2024-10/3.2": 0,
+    "zellic-2024-10/3.3": 1,
+    "reward": 0.3333333333333333
+  },
+  "report_findings": 17,
+  "matches": [
+    {
+      "reference_id": "3.1",
+      "report_finding": null,
+      "rationale": "No finding discusses relayer gas costs or insolvency caused by many small withdrawals.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.2",
+      "report_finding": null,
+      "rationale": "Finding 2 is about withdrawId reuse after a message is deleted. It does not cover collisions between 64-bit ids that block legitimate withdrawals, so it is a different defect.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.3",
+      "report_finding": 1,
+      "rationale": "Finding 1 identifies the same missing WITHDRAW_AUTHORITY_ROLE grant in DeployV1, which causes every claim to revert.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

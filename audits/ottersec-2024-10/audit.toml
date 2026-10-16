@@ -1,0 +1,69 @@
+auditor = "OtterSec"
+title = "Eclipse-syzygy Audit"
+date = "2024-10-31"
+syzygy_commit = "b631617168edce3171738d677536a4b1cf877f8f"
+scope = [
+  "smart-contracts/src/v1",
+]
+
+[[findings]]
+id = "OS-ECS-SUG-00.1"
+severity = "Informational"
+title = "Treasury balance check counts the fee twice"
+location = "smart-contracts/src/v1/Treasury.sol: Treasury.withdrawEth"
+description = """
+The fee is deducted from amountWei, but withdrawEth requires the balance to cover amountWei + feeWei. Withdrawals that the treasury can fully pay revert with InsufficientFunds.
+"""
+task = "eclipse-007"
+remediated_commit = "f631034eb2d477594d0c439dd36a5b115095c253"
+
+[[findings]]
+id = "OS-ECS-SUG-00.2"
+severity = "Informational"
+title = "Cancelling a withdrawal leaves its id consumed"
+location = "smart-contracts/src/v1/CanonicalBridge.sol: CanonicalBridge.deleteWithdrawMessage"
+description = """
+deleteWithdrawMessage clears the message's startTime but not withdrawMsgIdProcessed[withdrawId], so a cancelled withdrawal id can never be authorized again and the contract state is inconsistent.
+"""
+task = "eclipse-008"
+remediated_commit = "faac5da02d94fd20fecaacceaa7af077c245a9c7"
+
+[[findings]]
+id = "OS-ECS-SUG-00.3"
+severity = "Informational"
+title = "Zero fee receiver is not handled consistently"
+location = "smart-contracts/src/v1/CanonicalBridge.sol: validWithdrawMessage; smart-contracts/src/v1/Treasury.sol: withdrawEth"
+description = """
+validWithdrawMessage accepts a zero feeReceiver, while Treasury.withdrawEth always tries to pay the fee to it. Either reject a zero fee receiver when authorizing or handle it in the treasury.
+"""
+task = "eclipse-010"
+remediated_commit = "8aa0e949d64f20d5559025d0c0fe53f4f3f49db6"
+
+[[findings]]
+id = "OS-ECS-SUG-01.1"
+severity = "Informational"
+title = "claimWithdrawal updates state after the external call"
+location = "smart-contracts/src/v1/CanonicalBridge.sol: CanonicalBridge.claimWithdrawal"
+description = """
+claimWithdrawal calls Treasury.withdrawEth, which sends ether to the destination, before setting startTime[messageHash] = NEVER. The state update should come before the external call (checks-effects-interactions) to rule out reentrancy.
+"""
+task = "eclipse-009"
+remediated_commit = "26c409b8c563367602f0b8df9f205744a98731c1"
+
+[[findings]]
+id = "OS-ECS-SUG-01.2"
+severity = "Informational"
+title = "Unused variables"
+location = "smart-contracts/src/v1/Treasury.sol: StorageV1; role constants"
+description = """
+Several variables, including Treasury's StorageV1 and some role constants, are never used and should be removed.
+"""
+
+[[findings]]
+id = "OS-ECS-SUG-01.3"
+severity = "Informational"
+title = "Authorization does not check withdrawMsgIdProcessed"
+location = "smart-contracts/src/v1/CanonicalBridge.sol: CanonicalBridge._authorizeWithdraw"
+description = """
+_authorizeWithdraw only rejects a message whose hash already exists; it does not check withdrawMsgIdProcessed, so the same withdrawal id can be reused in a different message.
+"""

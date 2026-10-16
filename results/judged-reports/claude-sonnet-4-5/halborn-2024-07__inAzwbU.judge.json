@@ -1,0 +1,37 @@
+{
+  "rewards": {
+    "halborn-2024-07/7.1": 1,
+    "halborn-2024-07/7.2": 0,
+    "halborn-2024-07/7.3": 1,
+    "halborn-2024-07/7.4": 1,
+    "reward": 0.75
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "7.1",
+      "report_finding": 1,
+      "rationale": "Finding 1 points to the same defect in generateRandomNonce: the nonce is predictable from block properties, so future nonces can be marked as used ahead of time, causing a DoS.",
+      "credited": true
+    },
+    {
+      "reference_id": "7.2",
+      "report_finding": null,
+      "rationale": "No report finding raises the use of revert strings instead of custom errors.",
+      "credited": false
+    },
+    {
+      "reference_id": "7.3",
+      "report_finding": 12,
+      "rationale": "Finding 12 lists the admin's ability to pause as an unchecked centralized power and recommends multisig control. This is a lenient match: the finding covers several admin powers, and pause/unpause is only one of them.",
+      "credited": true
+    },
+    {
+      "reference_id": "7.4",
+      "report_finding": 14,
+      "rationale": "Finding 14 identifies the same issue in Treasury.emergencyWithdraw: the owner can withdraw immediately, with no timelock, limit or multi-party approval.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

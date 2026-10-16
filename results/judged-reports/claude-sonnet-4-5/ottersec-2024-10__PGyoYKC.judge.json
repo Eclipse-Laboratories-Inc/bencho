@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "ottersec-2024-10/OS-ECS-SUG-00.1": 1,
+    "ottersec-2024-10/OS-ECS-SUG-00.2": 1,
+    "ottersec-2024-10/OS-ECS-SUG-00.3": 1,
+    "ottersec-2024-10/OS-ECS-SUG-01.1": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.2": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.3": 1,
+    "reward": 0.6666666666666666
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "OS-ECS-SUG-00.1",
+      "report_finding": 1,
+      "rationale": "Finding 1 identifies the same defect: withdrawEth requires the balance to cover amountWei + feeWei, even though the fee is deducted from amountWei.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-00.2",
+      "report_finding": 4,
+      "rationale": "Finding 4 identifies the same defect: deleteWithdrawMessage clears startTime but leaves withdrawMsgIdProcessed set, so the cancelled id cannot be reused.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-00.3",
+      "report_finding": 3,
+      "rationale": "Finding 3 identifies the same defect: validWithdrawMessage accepts a zero feeReceiver, which is inconsistent with how Treasury.withdrawEth handles the fee receiver.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.1",
+      "report_finding": null,
+      "rationale": "No finding covers claimWithdrawal updating state after the external call. Finding 6 is about reentrancy in emergencyWithdraw, which is a different function.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.2",
+      "report_finding": null,
+      "rationale": "No finding mentions unused variables or constants.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.3",
+      "report_finding": 2,
+      "rationale": "Finding 2 identifies the same defect: _authorizeWithdraw does not check withdrawMsgIdProcessed, so the same withdrawId can be reused in a different message.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

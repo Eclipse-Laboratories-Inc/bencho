@@ -1,0 +1,50 @@
+[
+  {
+    "key": "zellic-2024-03/3.1",
+    "id": "3.1",
+    "severity": "Critical",
+    "title": "Deposited ether is not locked in the treasury",
+    "location": "smart-contracts/src/v1/EtherBridge.sol: EtherBridge.deposit",
+    "description": "deposit converts the deposited wei to lamports for the outgoing message (amount / 1e9) and then forwards message.amount, the lamport value, to the Treasury instead of the full wei amount. Almost all deposited ether stays in EtherBridge, which has no way to withdraw it."
+  },
+  {
+    "key": "zellic-2024-03/3.2",
+    "id": "3.2",
+    "severity": "High",
+    "title": "Withdraw instruction does not validate the relayer account",
+    "location": "eclipse-programs/programs/canonical_bridge/src/instructions/withdraw.rs: Withdraw accounts",
+    "description": "The Solana withdraw instruction transfers the withdrawer's tokens to a caller-supplied relayer account and records a withdrawal for the Ethereum side. Unlike deposit, it has no constraint that the relayer account is the expected relayer address, so an attacker can route tokens to an account they control and still have the Ethereum relayer pay out, draining it for almost no cost."
+  },
+  {
+    "key": "zellic-2024-03/3.3",
+    "id": "3.3",
+    "severity": "Critical",
+    "title": "Withdrawal amount is not converted from lamports to wei",
+    "location": "smart-contracts/src/v1/EtherBridge.sol: EtherBridge.withdraw",
+    "description": "The withdrawal message amount is denominated in lamports (1 lamport = 1 gwei), but withdraw passes it to Treasury.withdraw as wei without multiplying by 1e9. Users receive one billionth of the funds they withdrew."
+  },
+  {
+    "key": "zellic-2024-03/3.4",
+    "id": "3.4",
+    "severity": "Informational",
+    "title": "Test suite does not cover negative paths or cross-chain flows",
+    "location": "smart-contracts/test (multiple contracts)",
+    "description": "Tests only exercise surface-level success paths. Negative cases and every revert branch are untested, especially the cross-chain deposit and withdrawal flows; several findings in this audit would have been caught by simple test cases."
+  },
+  {
+    "key": "zellic-2024-03/3.5",
+    "id": "3.5",
+    "severity": "Low",
+    "title": "Missing zero-address and empty-input validation",
+    "location": "smart-contracts/src/v1/Mailbox.sol: Mailbox.initialize, Mailbox.mailOutgoingMessage; smart-contracts/src/v1/EtherBridge.sol: EtherBridge.withdraw",
+    "description": "Mailbox.initialize does not check that the relayer is non-zero, Mailbox.mailOutgoingMessage does not reject an empty or zero destination (to_), and EtherBridge.withdraw does not reject a zero message.recipient."
+  },
+  {
+    "key": "zellic-2024-03/3.6",
+    "id": "3.6",
+    "severity": "Informational",
+    "title": "receiveMessage does not follow checks-effects-interactions",
+    "location": "smart-contracts/src/v1/Mailbox.sol: Mailbox.receiveMessage",
+    "description": "receiveMessage routes the message to the router (an external call) before marking the nonce as received. nonReentrant prevents exploitation today, but the nonce update should happen before the external call."
+  }
+]

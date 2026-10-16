@@ -1,0 +1,79 @@
+{
+  "rewards": {
+    "ottersec-2024-07/OS-ECB-ADV-00": 0,
+    "ottersec-2024-07/OS-ECB-ADV-01": 0,
+    "ottersec-2024-07/OS-ECB-ADV-02": 0,
+    "ottersec-2024-07/OS-ECB-SUG-00": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.1": 1,
+    "ottersec-2024-07/OS-ECB-SUG-01.2": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.3": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.4": 0,
+    "ottersec-2024-07/OS-ECB-SUG-02.1": 1,
+    "ottersec-2024-07/OS-ECB-SUG-02.2": 0,
+    "reward": 0.2
+  },
+  "report_findings": 19,
+  "matches": [
+    {
+      "reference_id": "OS-ECB-ADV-00",
+      "report_finding": null,
+      "rationale": "No report finding covers MIN_DEPOSIT_LAMPORTS leaving out the 128-byte account storage overhead. Finding 12 is about rent on the Solana PDAs, not the Ethereum minimum deposit.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-ADV-01",
+      "report_finding": null,
+      "rationale": "No report finding mentions the PDA bump being passed in as a user-supplied argument.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-ADV-02",
+      "report_finding": null,
+      "rationale": "No report finding notes that MessageSent emits the Ethereum chain id as the destination. Finding 8 is about argument mapping in EtherBridge.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-00",
+      "report_finding": null,
+      "rationale": "Finding 16 discusses the logging but not Solana's log truncation limit.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.1",
+      "report_finding": 1,
+      "rationale": "Finding 1 identifies collisions in the generateRandomNonce nonce, notes that only 64 bits are kept, and recommends keeping the full 256 bits.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.2",
+      "report_finding": null,
+      "rationale": "No report finding covers addressArrayInitialized accepting an empty array.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.3",
+      "report_finding": null,
+      "rationale": "Findings 2 and 3 mention the hardcoded relayer but not that it is a single custodian of bridged funds.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.4",
+      "report_finding": null,
+      "rationale": "No report finding covers the missing _disableInitializers calls in the implementation constructors.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-02.1",
+      "report_finding": 7,
+      "rationale": "Finding 7 identifies invoke_signed called with empty seeds where invoke would do.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECB-SUG-02.2",
+      "report_finding": null,
+      "rationale": "Finding 12 mentions the hardcoded 1024-byte size but treats it as a rent-exemption issue, not wasteful over-allocation.",
+      "credited": false
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

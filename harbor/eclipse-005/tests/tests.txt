@@ -1,2 +1,0 @@
-test_audit_minDepositCoversRentOverhead
-test_EtherBridge_CannotInitAgain

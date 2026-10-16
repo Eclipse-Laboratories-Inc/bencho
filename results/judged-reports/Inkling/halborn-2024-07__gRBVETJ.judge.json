@@ -1,0 +1,37 @@
+{
+  "rewards": {
+    "halborn-2024-07/7.1": 1,
+    "halborn-2024-07/7.2": 0,
+    "halborn-2024-07/7.3": 0,
+    "halborn-2024-07/7.4": 1,
+    "reward": 0.5
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "7.1",
+      "report_finding": 1,
+      "rationale": "Report finding 1 points to the same root cause in Mailbox.generateRandomNonce: the nonce is built from lastNonce and block values (blockhash, timestamp, coinbase), so future nonces can be predicted.",
+      "credited": true
+    },
+    {
+      "reference_id": "7.2",
+      "report_finding": null,
+      "rationale": "No report finding recommends replacing revert strings with custom errors.",
+      "credited": false
+    },
+    {
+      "reference_id": "7.3",
+      "report_finding": null,
+      "rationale": "No report finding raises the centralization risk of owner-only pause and unpause.",
+      "credited": false
+    },
+    {
+      "reference_id": "7.4",
+      "report_finding": 4,
+      "rationale": "Report finding 4 describes the same defect in Treasury.emergencyWithdraw: the owner can drain the treasury with no limit or timelock, and it recommends a timelock or multisig.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

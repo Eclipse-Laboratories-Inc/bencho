@@ -1,0 +1,79 @@
+{
+  "rewards": {
+    "ottersec-2024-07/OS-ECB-ADV-00": 0,
+    "ottersec-2024-07/OS-ECB-ADV-01": 1,
+    "ottersec-2024-07/OS-ECB-ADV-02": 0,
+    "ottersec-2024-07/OS-ECB-SUG-00": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.1": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.2": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.3": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.4": 0,
+    "ottersec-2024-07/OS-ECB-SUG-02.1": 0,
+    "ottersec-2024-07/OS-ECB-SUG-02.2": 1,
+    "reward": 0.2
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "OS-ECB-ADV-00",
+      "report_finding": null,
+      "rationale": "No report finding says the minimum deposit leaves out the 128-byte account storage overhead in the rent calculation.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-ADV-01",
+      "report_finding": 2,
+      "rationale": "Finding 2 identifies that the user-supplied bump is stored for the deposit receipt instead of ctx.bumps. Finding 11 makes the same point for withdraw, but each reference can match only one report finding.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECB-ADV-02",
+      "report_finding": null,
+      "rationale": "Finding 9 only says the chainId parameter is unused. It does not say that emitting the Ethereum chain id as the destination is wrong when messages go to Eclipse.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-00",
+      "report_finding": null,
+      "rationale": "No report finding mentions log truncation.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.1",
+      "report_finding": null,
+      "rationale": "Finding 1 is about nonces being predictable. It does not cover 64-bit collision risk or the missing reuse check on sendNonces.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.2",
+      "report_finding": null,
+      "rationale": "Finding 6 is about unbounded loops, not about an empty array passing validation.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.3",
+      "report_finding": null,
+      "rationale": "Finding 12 is about the relayer's control over message passing, not about the relayer key holding custody of bridged funds.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.4",
+      "report_finding": null,
+      "rationale": "No report finding mentions the missing _disableInitializers call.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-02.1",
+      "report_finding": null,
+      "rationale": "No report finding mentions invoke_signed being used where invoke would do.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-02.2",
+      "report_finding": 20,
+      "rationale": "Finding 20 identifies the oversized 1024-byte Configuration allocation when about 11 bytes are needed.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

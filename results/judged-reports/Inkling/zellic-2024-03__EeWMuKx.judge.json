@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "zellic-2024-03/3.1": 1,
+    "zellic-2024-03/3.2": 1,
+    "zellic-2024-03/3.3": 0,
+    "zellic-2024-03/3.4": 0,
+    "zellic-2024-03/3.5": 1,
+    "zellic-2024-03/3.6": 0,
+    "reward": 0.5
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "3.1",
+      "report_finding": 1,
+      "rationale": "Identifies that deposit forwards message.amount (lamports) instead of wei to the treasury.",
+      "credited": true
+    },
+    {
+      "reference_id": "3.2",
+      "report_finding": 4,
+      "rationale": "Identifies that the withdraw relayer account has no address constraint (no RELAYER_PUBKEY check).",
+      "credited": true
+    },
+    {
+      "reference_id": "3.3",
+      "report_finding": null,
+      "rationale": "No report finding covers the missing lamport-to-wei conversion in EtherBridge.withdraw.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.4",
+      "report_finding": null,
+      "rationale": "No report finding covers test coverage.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.5",
+      "report_finding": 10,
+      "rationale": "Identifies the missing zero-address check on message.recipient in EtherBridge.withdraw, which is one of the listed missing validations.",
+      "credited": true
+    },
+    {
+      "reference_id": "3.6",
+      "report_finding": null,
+      "rationale": "Finding 16 is about CEI ordering in deposit, not receiveMessage. Finding 8 is about nonce replay, not the nonce being updated after the external call.",
+      "credited": false
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "ottersec-2024-10/OS-ECS-SUG-00.1": 1,
+    "ottersec-2024-10/OS-ECS-SUG-00.2": 1,
+    "ottersec-2024-10/OS-ECS-SUG-00.3": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.1": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.2": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.3": 1,
+    "reward": 0.5
+  },
+  "report_findings": 15,
+  "matches": [
+    {
+      "reference_id": "OS-ECS-SUG-00.1",
+      "report_finding": 1,
+      "rationale": "Same double-counting of the fee in the withdrawEth balance check.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-00.2",
+      "report_finding": 6,
+      "rationale": "Same issue: deleteWithdrawMessage does not reset withdrawMsgIdProcessed.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-00.3",
+      "report_finding": null,
+      "rationale": "No report finding covers the zero feeReceiver inconsistency.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.1",
+      "report_finding": null,
+      "rationale": "No report finding covers the claimWithdrawal checks-effects-interactions ordering. Finding 4 is about emergencyWithdraw, which is a different function.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.2",
+      "report_finding": null,
+      "rationale": "No report finding covers unused variables.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.3",
+      "report_finding": 7,
+      "rationale": "Same issue: _authorizeWithdraw does not check withdrawMsgIdProcessed, so a withdrawal id can be reused in a different message.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

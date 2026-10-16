@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "zellic-2024-03/3.1": 1,
+    "zellic-2024-03/3.2": 0,
+    "zellic-2024-03/3.3": 0,
+    "zellic-2024-03/3.4": 0,
+    "zellic-2024-03/3.5": 0,
+    "zellic-2024-03/3.6": 0,
+    "reward": 0.16666666666666666
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "3.1",
+      "report_finding": 1,
+      "rationale": "Same defect: deposit forwards message.amount (lamports) to treasury instead of wei amount.",
+      "credited": true
+    },
+    {
+      "reference_id": "3.2",
+      "report_finding": null,
+      "rationale": "Finding 7 discusses withdraw authorization/replay and assumes transfer goes to RELAYER_PUBKEY; does not identify missing relayer account constraint.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.3",
+      "report_finding": null,
+      "rationale": "No finding identifies missing lamport-to-wei conversion in withdraw.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.4",
+      "report_finding": null,
+      "rationale": "No test coverage finding.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.5",
+      "report_finding": null,
+      "rationale": "No finding on zero-address relayer, empty to_, or zero recipient checks.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.6",
+      "report_finding": null,
+      "rationale": "No finding on receiveMessage CEI ordering.",
+      "credited": false
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

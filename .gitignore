@@ -1,11 +1,7 @@
 repos/
 .venv/
 .work/
-environment/forge-libs/
-results/trajectories/
-results/runs/
-results/work/
-results/discovery/*/trajectories/
+__pycache__/
 results/harbor-jobs/
 **/.env
 **/.env.*

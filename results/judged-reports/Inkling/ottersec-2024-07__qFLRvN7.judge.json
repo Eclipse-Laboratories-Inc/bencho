@@ -1,0 +1,79 @@
+{
+  "rewards": {
+    "ottersec-2024-07/OS-ECB-ADV-00": 0,
+    "ottersec-2024-07/OS-ECB-ADV-01": 0,
+    "ottersec-2024-07/OS-ECB-ADV-02": 0,
+    "ottersec-2024-07/OS-ECB-SUG-00": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.1": 1,
+    "ottersec-2024-07/OS-ECB-SUG-01.2": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.3": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.4": 0,
+    "ottersec-2024-07/OS-ECB-SUG-02.1": 0,
+    "ottersec-2024-07/OS-ECB-SUG-02.2": 0,
+    "reward": 0.1
+  },
+  "report_findings": 19,
+  "matches": [
+    {
+      "reference_id": "OS-ECB-ADV-00",
+      "report_finding": null,
+      "rationale": "No report finding addresses rent-exempt minimum deposit / account storage overhead.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-ADV-01",
+      "report_finding": null,
+      "rationale": "No finding about user-supplied PDA bump.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-ADV-02",
+      "report_finding": null,
+      "rationale": "Finding 4 says chainId param is ignored but does not identify that MessageSent emits the Ethereum chain id instead of Eclipse; finding 6 argues the opposite.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-00",
+      "report_finding": null,
+      "rationale": "No finding on msg! log truncation.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.1",
+      "report_finding": 1,
+      "rationale": "Finding 1 notes nonce truncated to uint64 making collisions likely in generateRandomNonce/sendMessage.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.2",
+      "report_finding": null,
+      "rationale": "No finding identifies empty array passing addressArrayInitialized.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.3",
+      "report_finding": null,
+      "rationale": "No finding about relayer custody of all funds as single point of failure.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.4",
+      "report_finding": null,
+      "rationale": "No finding about missing _disableInitializers.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-02.1",
+      "report_finding": null,
+      "rationale": "No finding about invoke_signed vs invoke.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-02.2",
+      "report_finding": null,
+      "rationale": "No finding about oversized 1024-byte allocations.",
+      "credited": false
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

@@ -1,0 +1,30 @@
+{
+  "rewards": {
+    "zellic-2024-10/3.1": 0,
+    "zellic-2024-10/3.2": 0,
+    "zellic-2024-10/3.3": 1,
+    "reward": 0.3333333333333333
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "3.1",
+      "report_finding": null,
+      "rationale": "No finding covers the relayer paying gas for authorizations without compensation until claim. Finding 15 is about unbounded arrays hitting the block gas limit, which is a different defect.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.2",
+      "report_finding": null,
+      "rationale": "No finding identifies 64-bit withdrawId collisions. Finding 17 covers the same duplicate check but only raises a genesis block.number sentinel issue, which is a different defect.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.3",
+      "report_finding": 1,
+      "rationale": "Finding 1 identifies that DeployV1 never grants WITHDRAW_AUTHORITY_ROLE to the bridge, which makes every claimWithdrawal revert.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

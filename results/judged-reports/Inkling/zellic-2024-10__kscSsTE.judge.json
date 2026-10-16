@@ -1,0 +1,30 @@
+{
+  "rewards": {
+    "zellic-2024-10/3.1": 0,
+    "zellic-2024-10/3.2": 0,
+    "zellic-2024-10/3.3": 0,
+    "reward": 0.0
+  },
+  "report_findings": 12,
+  "matches": [
+    {
+      "reference_id": "3.1",
+      "report_finding": null,
+      "rationale": "No report finding covers the relayer paying gas to authorize withdrawals that are only compensated on claim, or the resulting griefing with many small withdrawals.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.2",
+      "report_finding": null,
+      "rationale": "No report finding covers collisions between 64-bit withdrawIds in withdrawMsgIdProcessed.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.3",
+      "report_finding": null,
+      "rationale": "Finding 7 discusses DeployV1 roles but treats them as correct. It never says the bridge lacks the treasury's WITHDRAW_AUTHORITY_ROLE, so it misses the defect.",
+      "credited": false
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

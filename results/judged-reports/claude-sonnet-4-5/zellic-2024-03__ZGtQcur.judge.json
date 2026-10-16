@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "zellic-2024-03/3.1": 1,
+    "zellic-2024-03/3.2": 0,
+    "zellic-2024-03/3.3": 0,
+    "zellic-2024-03/3.4": 0,
+    "zellic-2024-03/3.5": 0,
+    "zellic-2024-03/3.6": 0,
+    "reward": 0.16666666666666666
+  },
+  "report_findings": 19,
+  "matches": [
+    {
+      "reference_id": "3.1",
+      "report_finding": 1,
+      "rationale": "Report finding 1 identifies the same defect: deposit forwards the lamport-converted message.amount to the treasury, so most of the deposited ether stays in EtherBridge.",
+      "credited": true
+    },
+    {
+      "reference_id": "3.2",
+      "report_finding": null,
+      "rationale": "No report finding says the relayer account in withdraw is unvalidated. Finding 6 is about the hardcoded relayer key, and finding 7 is about nonce replay.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.3",
+      "report_finding": null,
+      "rationale": "No report finding mentions that withdraw is missing the lamport-to-wei conversion.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.4",
+      "report_finding": null,
+      "rationale": "No report finding addresses test coverage.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.5",
+      "report_finding": null,
+      "rationale": "No report finding names the missing zero-address checks for the relayer, the to_ destination or message.recipient. Finding 12 covers address format validation in the Solana program, which is different code.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.6",
+      "report_finding": null,
+      "rationale": "No report finding raises the checks-effects-interactions ordering in receiveMessage.",
+      "credited": false
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

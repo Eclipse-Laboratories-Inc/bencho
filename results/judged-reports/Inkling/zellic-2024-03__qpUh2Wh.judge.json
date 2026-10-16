@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "zellic-2024-03/3.1": 1,
+    "zellic-2024-03/3.2": 0,
+    "zellic-2024-03/3.3": 0,
+    "zellic-2024-03/3.4": 0,
+    "zellic-2024-03/3.5": 1,
+    "zellic-2024-03/3.6": 0,
+    "reward": 0.3333333333333333
+  },
+  "report_findings": 18,
+  "matches": [
+    {
+      "reference_id": "3.1",
+      "report_finding": 1,
+      "rationale": "Report finding 1 is the same defect: deposit forwards message.amount (lamports) to the treasury instead of the full wei amount.",
+      "credited": true
+    },
+    {
+      "reference_id": "3.2",
+      "report_finding": null,
+      "rationale": "Report finding 3 blames missing authorization of the withdrawer signer and treats the relayer account as hardcoded. It does not identify that the relayer account is unconstrained, which is the actual defect.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.3",
+      "report_finding": null,
+      "rationale": "No report finding mentions that the withdrawal amount is not converted from lamports to wei.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.4",
+      "report_finding": null,
+      "rationale": "No report finding addresses test coverage.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.5",
+      "report_finding": 6,
+      "rationale": "Report finding 6 names the missing non-zero check on message.recipient in EtherBridge.withdraw, which is one of the missing validations listed in this reference finding.",
+      "credited": true
+    },
+    {
+      "reference_id": "3.6",
+      "report_finding": null,
+      "rationale": "No report finding raises the nonce being marked as received only after the external call in receiveMessage.",
+      "credited": false
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

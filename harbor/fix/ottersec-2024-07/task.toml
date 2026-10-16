@@ -1,0 +1,36 @@
+schema_version = "1.4"
+
+[task]
+name = "eclipse/fix-ottersec-2024-07"
+version = "2.0.0"
+description = "Fix the defects found by the OtterSec 2024-07-18 audit of the Eclipse bridge contracts."
+authors = [{ name = "Eclipse Laboratories", email = "daniel@eclipse.builders" }]
+keywords = ["smart-contracts", "solidity", "foundry", "security", "fix"]
+
+[metadata]
+format = "fix"
+auditor = "OtterSec"
+audit_title = "Eclipse Canonical Bridge Audit"
+audit_date = "2024-07-18"
+source_repository = "https://github.com/Eclipse-Laboratories-Inc/syzygy"
+source_commit = "fd6b81b965bb99c03565c48dde5a0b6125e67f78"
+
+graded_keys = ["eclipse-005", "eclipse-006"]
+source_license = "Proprietary - Eclipse Laboratories, Inc. (authorized evaluation distribution)"
+
+[verifier]
+timeout_sec = 1200.0
+user = "root"
+
+
+[agent]
+timeout_sec = 3600.0
+user = "foundry"
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+workdir = "/app"

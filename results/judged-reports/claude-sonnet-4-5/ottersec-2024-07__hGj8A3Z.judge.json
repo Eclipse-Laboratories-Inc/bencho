@@ -1,0 +1,79 @@
+{
+  "rewards": {
+    "ottersec-2024-07/OS-ECB-ADV-00": 0,
+    "ottersec-2024-07/OS-ECB-ADV-01": 0,
+    "ottersec-2024-07/OS-ECB-ADV-02": 0,
+    "ottersec-2024-07/OS-ECB-SUG-00": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.1": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.2": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.3": 0,
+    "ottersec-2024-07/OS-ECB-SUG-01.4": 0,
+    "ottersec-2024-07/OS-ECB-SUG-02.1": 0,
+    "ottersec-2024-07/OS-ECB-SUG-02.2": 1,
+    "reward": 0.1
+  },
+  "report_findings": 19,
+  "matches": [
+    {
+      "reference_id": "OS-ECB-ADV-00",
+      "report_finding": null,
+      "rationale": "No report finding addresses the missing 128-byte account storage overhead in the minimum deposit calculation.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-ADV-01",
+      "report_finding": null,
+      "rationale": "No finding about the PDA bump being passed in as a user-supplied instruction argument.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-ADV-02",
+      "report_finding": null,
+      "rationale": "Finding 5 is about not checking the destination chainId parameter. It does not mention MessageSent emitting the Ethereum chain id as the destination.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-00",
+      "report_finding": null,
+      "rationale": "No finding about msg! log truncation.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.1",
+      "report_finding": null,
+      "rationale": "Finding 1 says the nonce is predictable or can be manipulated. That is a different root cause from collisions caused by the 64-bit width with no reuse check.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.2",
+      "report_finding": null,
+      "rationale": "No finding about addressArrayInitialized accepting an empty array.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.3",
+      "report_finding": null,
+      "rationale": "Finding 17 covers general relayer centralization (availability, censorship). It does not say the relayer account holds custody of bridged funds.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-01.4",
+      "report_finding": null,
+      "rationale": "No finding about missing _disableInitializers in the implementation constructors.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-02.1",
+      "report_finding": null,
+      "rationale": "No finding about invoke_signed being used where invoke would do.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECB-SUG-02.2",
+      "report_finding": 13,
+      "rationale": "Finding 13 identifies the fixed 1024-byte sizes of Configuration and WithdrawalReceipt as oversized.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

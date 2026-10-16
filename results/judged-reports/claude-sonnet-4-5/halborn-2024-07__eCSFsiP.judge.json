@@ -1,0 +1,37 @@
+{
+  "rewards": {
+    "halborn-2024-07/7.1": 1,
+    "halborn-2024-07/7.2": 0,
+    "halborn-2024-07/7.3": 0,
+    "halborn-2024-07/7.4": 0,
+    "reward": 0.25
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "7.1",
+      "report_finding": 2,
+      "rationale": "Finding 2 points to generateRandomNonce, which builds the nonce from lastNonce, blockhash, timestamp and coinbase, so future nonces can be predicted and used for DoS. This is the same root cause.",
+      "credited": true
+    },
+    {
+      "reference_id": "7.2",
+      "report_finding": null,
+      "rationale": "The report does not raise revert strings vs custom errors.",
+      "credited": false
+    },
+    {
+      "reference_id": "7.3",
+      "report_finding": null,
+      "rationale": "Finding 7 discusses how pausing the Treasury affects bridge deposits. It does not raise the owner-only pause/unpause centralization risk.",
+      "credited": false
+    },
+    {
+      "reference_id": "7.4",
+      "report_finding": null,
+      "rationale": "Findings 13 and 14 cover the owner being a contract and the missing zero-amount check. Neither raises the unrestricted owner drain / centralization risk.",
+      "credited": false
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

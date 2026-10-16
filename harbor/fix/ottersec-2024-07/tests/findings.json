@@ -1,0 +1,13 @@
+{
+  "findings": [
+    {
+      "key": "eclipse-005",
+      "grader": "Eclipse005.sol"
+    },
+    {
+      "key": "eclipse-006",
+      "grader": "Eclipse006.sol"
+    }
+  ],
+  "regression_exclude": []
+}

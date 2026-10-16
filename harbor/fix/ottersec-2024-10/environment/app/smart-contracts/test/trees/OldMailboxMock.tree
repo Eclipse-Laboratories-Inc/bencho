@@ -1,0 +1,69 @@
+OldMailboxMockTest::initialize
+├── it should never revert when parameters are valid.
+├── when params_ids and params_modules have different lengths
+│   └── it should revert.
+├── when params_ids is empty
+│   └── it should revert.
+└── when params_modules is empty
+    └── it should revert.
+
+
+OldMailboxMockTest::addModule
+├── it should never revert when the caller has admin role.
+├── when the caller does not have admin role
+│   └── it should revert.
+└── when the module ID already exists
+    └── it should revert.
+
+
+OldMailboxMockTest::_authorizeUpgrade
+├── it should never revert when the caller has admin role.
+└── when the caller does not have admin role
+    └── it should revert.
+
+
+OldMailboxMockTest::generateRandomNonce
+├── it should return a non-zero value.
+└── it should return different values on subsequent calls.
+
+
+OldMailboxMockTest::generateChainId
+└── it should return consistent values for the same input.
+
+
+OldMailboxMockTest::getLastNonce
+└── it should return the correct value.
+
+
+OldMailboxMockTest::getEthereumChainId
+└── it should return the correct value.
+
+
+OldMailboxMockTest::getEclipseChainId
+└── it should return the correct value.
+
+
+OldMailboxMockTest::getModuleAddress
+├── when the module ID exists
+│   └── it should return the correct address.
+└── when the module ID does not exist
+    └── it should return the zero address.
+
+
+OldMailboxMockTest::isReceiveNonceUsed
+├── when the nonce has been used
+│   └── it should return true.
+└── when the nonce has not been used
+    └── it should return false.
+
+
+OldMailboxMockTest::isSendNonceUsed
+├── when the nonce has been used
+│   └── it should return true.
+└── when the nonce has not been used
+    └── it should return false.
+
+
+OldMailboxMockTest::getVersion
+└── it should return correct version numbers.
+

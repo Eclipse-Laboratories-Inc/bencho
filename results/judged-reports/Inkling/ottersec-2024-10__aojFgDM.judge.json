@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "ottersec-2024-10/OS-ECS-SUG-00.1": 1,
+    "ottersec-2024-10/OS-ECS-SUG-00.2": 1,
+    "ottersec-2024-10/OS-ECS-SUG-00.3": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.1": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.2": 0,
+    "ottersec-2024-10/OS-ECS-SUG-01.3": 1,
+    "reward": 0.5
+  },
+  "report_findings": 8,
+  "matches": [
+    {
+      "reference_id": "OS-ECS-SUG-00.1",
+      "report_finding": 1,
+      "rationale": "Finding 1 identifies the amountWei + feeWei balance check in withdrawEth, which counts the fee twice and causes payable withdrawals to revert with InsufficientFunds.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-00.2",
+      "report_finding": 3,
+      "rationale": "Finding 3 states that deleteWithdrawMessage resets startTime but leaves withdrawMsgIdProcessed set, so a cancelled id can't be authorized again.",
+      "credited": true
+    },
+    {
+      "reference_id": "OS-ECS-SUG-00.3",
+      "report_finding": null,
+      "rationale": "No report finding covers the inconsistent handling of a zero feeReceiver.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.1",
+      "report_finding": null,
+      "rationale": "No report finding covers claimWithdrawal updating state after the external call (CEI/reentrancy ordering).",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.2",
+      "report_finding": null,
+      "rationale": "Finding 8 is about unused roles in Upgrader0to1. It does not cover Treasury's unused StorageV1 or the role constants in Treasury.sol, so it is a different location.",
+      "credited": false
+    },
+    {
+      "reference_id": "OS-ECS-SUG-01.3",
+      "report_finding": 2,
+      "rationale": "Finding 2 states that _authorizeWithdraw never checks withdrawMsgIdProcessed, so the same withdrawId can be reused in a different message.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

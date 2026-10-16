@@ -1,0 +1,51 @@
+{
+  "rewards": {
+    "zellic-2024-03/3.1": 1,
+    "zellic-2024-03/3.2": 1,
+    "zellic-2024-03/3.3": 1,
+    "zellic-2024-03/3.4": 0,
+    "zellic-2024-03/3.5": 0,
+    "zellic-2024-03/3.6": 1,
+    "reward": 0.6666666666666666
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "3.1",
+      "report_finding": 1,
+      "rationale": "Finding 1 identifies that deposit sends message.amount, the lamport value, to the treasury instead of the full wei amount, so the rest stays in EtherBridge.",
+      "credited": true
+    },
+    {
+      "reference_id": "3.2",
+      "report_finding": 14,
+      "rationale": "Finding 14 notes that in withdraw.rs the relayer account is not checked against RELAYER_PUBKEY, whereas deposit does check it.",
+      "credited": true
+    },
+    {
+      "reference_id": "3.3",
+      "report_finding": 6,
+      "rationale": "Finding 6 is muddled, but it does say withdraw passes message.amount, which is in lamports, straight to the treasury, which expects wei. That is the unit mismatch in EtherBridge.withdraw.",
+      "credited": true
+    },
+    {
+      "reference_id": "3.4",
+      "report_finding": null,
+      "rationale": "The report has no finding about test coverage.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.5",
+      "report_finding": null,
+      "rationale": "The report does not flag the missing zero-address checks on the relayer, destination or recipient.",
+      "credited": false
+    },
+    {
+      "reference_id": "3.6",
+      "report_finding": 4,
+      "rationale": "Finding 4 flags that receiveMessage calls the router before marking the nonce as received, and recommends checks-effects-interactions.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}

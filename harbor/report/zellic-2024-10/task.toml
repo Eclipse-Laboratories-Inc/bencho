@@ -1,0 +1,42 @@
+schema_version = "1.4"
+
+[task]
+name = "eclipse/report-zellic-2024-10"
+version = "2.0.0"
+description = "Audit the Eclipse bridge code that Zellic audited on 2024-10-30 and write a report."
+authors = [{ name = "Eclipse Laboratories", email = "daniel@eclipse.builders" }]
+keywords = ["smart-contracts", "solidity", "foundry", "security", "report"]
+
+[metadata]
+format = "report"
+auditor = "Zellic"
+audit_title = "Eclipse Withdraw Smart Contract Security Assessment"
+audit_date = "2024-10-30"
+source_repository = "https://github.com/Eclipse-Laboratories-Inc/syzygy"
+source_commit = "ea3e53c1067b42f1c1cf1e4d1258f4c3a9a470b0"
+
+graded_keys = ["zellic-2024-10/3.1", "zellic-2024-10/3.2", "zellic-2024-10/3.3"]
+source_license = "Proprietary - Eclipse Laboratories, Inc. (authorized evaluation distribution)"
+
+[verifier]
+timeout_sec = 1200.0
+user = "root"
+network_mode = "allowlist"
+allowed_hosts = ["api.anthropic.com"]
+
+[verifier.env]
+JUDGE_API_KEY = "${JUDGE_API_KEY}"
+JUDGE_MODEL = "${JUDGE_MODEL:-claude-opus-5-5}"
+JUDGE_WORKSPACE_ID = "${JUDGE_WORKSPACE_ID:-}"
+
+[agent]
+timeout_sec = 3600.0
+user = "foundry"
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+workdir = "/app"

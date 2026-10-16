@@ -1,0 +1,37 @@
+{
+  "rewards": {
+    "halborn-2024-07/7.1": 1,
+    "halborn-2024-07/7.2": 0,
+    "halborn-2024-07/7.3": 0,
+    "halborn-2024-07/7.4": 1,
+    "reward": 0.5
+  },
+  "report_findings": 20,
+  "matches": [
+    {
+      "reference_id": "7.1",
+      "report_finding": 1,
+      "rationale": "Finding 1 says generateRandomNonce builds the nonce from lastNonce, blockhash, timestamp and coinbase, so future nonces can be predicted and replay protection is weakened. This is the same root cause as the reference.",
+      "credited": true
+    },
+    {
+      "reference_id": "7.2",
+      "report_finding": null,
+      "rationale": "No report finding mentions revert strings or custom errors.",
+      "credited": false
+    },
+    {
+      "reference_id": "7.3",
+      "report_finding": null,
+      "rationale": "No report finding raises the centralization risk of owner-only pause and unpause.",
+      "credited": false
+    },
+    {
+      "reference_id": "7.4",
+      "report_finding": 13,
+      "rationale": "Finding 13 says Treasury.emergencyWithdraw lets the owner drain the treasury with no timelock, multi-sig or withdrawal limit. This is the same defect as the reference.",
+      "credited": true
+    }
+  ],
+  "model": "claude-opus-5-5"
+}
