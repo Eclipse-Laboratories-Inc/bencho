@@ -44,4 +44,21 @@ contract Eclipse006_Test is Test {
         assertTrue(found, "MessageSent was not emitted");
         assertEq(got, want);
     }
+
+    function test_keep_unauthorizedSenderCannotSendMessage() external {
+        Mailbox mailbox = new Mailbox();
+        bytes32[] memory ids = new bytes32[](1);
+        ids[0] = keccak256("module");
+        address[] memory modules = new address[](1);
+        modules[0] = address(this);
+        mailbox.initialize(
+            Mailbox.InitParams({
+                trustedRelayer: address(0xBEEF), ids: ids, modules: modules,
+                ethereumChainId: "eth-mainnet", eclipseChainId: "eclipse-chain"
+            })
+        );
+        vm.prank(makeAddr("attacker"));
+        vm.expectRevert();
+        mailbox.sendMessage("", abi.encodePacked("receiver"), abi.encodePacked("payload"), "");
+    }
 }

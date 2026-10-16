@@ -32,6 +32,16 @@ JUDGE_API_KEY=... harbor run -p harbor/report -a oracle   # reward 1
 
 `solution/` holds the reference fixes (one patch per finding, applied in order) and, for report tasks, a report rendered from the rubric.
 
+## External validation (no secrets)
+
+The `fix/` tasks need no API keys or repo `.env` to validate. With Docker running and Harbor 0.24.0 installed (`pip install harbor==0.24.0`, or set `HARBOR=/path/to/harbor`):
+
+```bash
+scripts/validate_external.sh   # oracle must score 1.0, nop 0.0, on all 3 fix tasks
+```
+
+This is the exact check run from a clean copy of the repo before handoff; expected output ends with `EXTERNAL VALIDATION PASSED`. Running your own model additionally needs only that model's API access configured for Harbor's `claude-code` agent. Only the `report/` tasks need a key (`JUDGE_API_KEY`, for the judge).
+
 ## Integrity
 
 - Pinned base image `ghcr.io/foundry-rs/foundry@sha256:0437526…`. Libraries are fetched at pinned commits when the image is built. The tree has no `.git`, and audit PDFs, library tests, and Solana keypairs are removed. Developer notes that stated a finding outright (Zellic 2024-03 only) are removed by `audits/zellic-2024-03/redact.patch`.

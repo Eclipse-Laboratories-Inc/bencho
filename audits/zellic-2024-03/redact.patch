@@ -2,13 +2,13 @@ diff --git a/smart-contracts/README.md b/smart-contracts/README.md
 index d0b9bd29..dc066a02 100644
 --- a/smart-contracts/README.md
 +++ b/smart-contracts/README.md
-@@ -11,7 +11,6 @@ Currently there are a few issues that are not yet resolved in the smart-contract
+@@ -11,7 +11,4 @@ Currently there are a few issues that are not yet resolved in the smart-contract
  * UUPS proxy upgrades have not been fully designed, implemented and tested though some partial research has been done.  UUPS is useful in that we plan on eventually freezing the upgradeability of these contracts.
  * It is intended that a different multi-sig deployment authority will deploy the contracts, but the treasury will be managed by another party or perhaps will remain not upgradeable.
- * Withdraws have not been unit tested
+-* Withdraws have not been unit tested
 -* The EtherBridge was originally intended to store fees and not locked ether. The Treasury is intended to store locked ether, but currently it does not behave this way. 
  * Registry should potentially be refactored to use an AccessList or a better RBA mechanism that is built into a library like Open-Zeppelin instead of using our custom one.
- * The project only has a simple integration test for deposits and needs more thorough integration testing.
+-* The project only has a simple integration test for deposits and needs more thorough integration testing.
  
 diff --git a/smart-contracts/specs/v1/EtherBridge.md b/smart-contracts/specs/v1/EtherBridge.md
 index 4a78edbc..e8d91f58 100644

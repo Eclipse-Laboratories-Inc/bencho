@@ -19,6 +19,15 @@ For the fix formats the reward is the fraction of the audit's graded findings th
 | Agent tokens, input / output (millions) | 33.4 / 0.73 | 76.7 / 0.73 |
 | Agent cost (USD, Anthropic list prices) | 27.28 | n/a |
 
+## Difficulty: three layers (do not quote a single pass rate)
+
+Layer 1 is the per-attempt mean reward above. Layer 2 counts a graded finding as solved if at least one of the 5 attempts fixed it (per-finding pass@5). Layer 3 counts an audit as solved only if one trial fixed every graded finding in it (full-audit pass@5).
+
+| Format | Claude Sonnet 4.5 | Inkling |
+|---|---|---|
+| `fix` | L2 7/10 findings · L3 0/3 audits | L2 4/10 findings · L3 0/3 audits |
+| `fix-ticketed` | L2 10/10 findings · L3 3/3 audits | L2 10/10 findings · L3 3/3 audits |
+
 ## Fix formats: attempts that fixed each finding
 
 | Finding | Audit | Title | Claude Sonnet 4.5, `fix` | Claude Sonnet 4.5, `fix-ticketed` | Inkling, `fix` | Inkling, `fix-ticketed` |
@@ -73,3 +82,4 @@ For the fix formats the reward is the fraction of the audit's graded findings th
 - Harbor 0.24.0. Inkling ran in the same `claude-code` harness against Thinking Machines' Anthropic-compatible API.
 - The judge model does not accept a fixed temperature, so rerunning the judge on the same report can credit a borderline finding differently.
 - `fix-ticketed` names each defect, so it measures repair, not discovery. `fix` and `report` measure discovery.
+- After these runs the fix graders were hardened (see `audits/GRADER_AUDIT.md`: 25 tests across the 10 findings, was 13) and one in-tree leak was redacted (see `audits/LEAKAGE_AUDIT.md`). Oracle still scores 1.0 and nop 0.0 on all 8 tasks, and post-hardening spot runs (1 attempt per fix audit) were consistent with the scores above: Claude 5/10 findings, Inkling 2/10, no full audit solved.

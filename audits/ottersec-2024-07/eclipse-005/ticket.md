@@ -10,4 +10,4 @@ with `lamports_per_byte_year = 3480`, `exemption_threshold = 2`, and a deposit-r
 
 ## Expected behavior
 
-`MIN_DEPOSIT / 1e9` lamports is at least `3480 * 2 * (49 + 128)`. Deposits below the configured minimum still revert. A deposit of exactly `MIN_DEPOSIT` still succeeds.
+`MIN_DEPOSIT / 1e9` lamports is at least `3480 * 2 * (49 + 128)`, and no more than twice that amount — raising the minimum far above the rent-exempt requirement is not a fix. Deposits below the configured minimum still revert. A deposit of exactly `MIN_DEPOSIT` still succeeds.

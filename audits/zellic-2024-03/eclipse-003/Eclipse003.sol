@@ -51,4 +51,19 @@ contract Eclipse003_Test is Test {
         vm.expectRevert();
         mailbox.mailOutgoingMessage("", "hello");
     }
+
+    function test_keep_withdrawAcceptsNonZeroRecipient() external {
+        address recipient = makeAddr("recipient");
+        IEtherBridge.WithdrawMessage memory message = IEtherBridge.WithdrawMessage({
+            sender: bytes32(uint256(1)), recipient: recipient, amount: 1
+        });
+        vm.prank(address(router));
+        etherBridge.withdraw(message);
+        assertGt(recipient.balance, 0);
+    }
+
+    function test_keep_mailOutgoingAcceptsNonEmptyDestination() external {
+        vm.prank(address(router));
+        mailbox.mailOutgoingMessage("dest", "hello");
+    }
 }

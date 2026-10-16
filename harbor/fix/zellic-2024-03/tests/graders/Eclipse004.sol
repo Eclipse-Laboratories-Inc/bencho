@@ -67,4 +67,19 @@ contract Eclipse004_Test is Test {
         assertTrue(ok);
         assertTrue(probe.nonceMarked(), "nonce was not marked before the router call");
     }
+
+    function test_keep_receiveMessageRejectsReplayedNonce() external {
+        bytes memory sender = abi.encodePacked("Mock");
+        bytes memory message = "Received message";
+        uint64 nonce = 43;
+        probe.setNonce(nonce);
+        bytes32 hash = keccak256(abi.encodePacked(eclipseChainId, sender, message, nonce));
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(relayerPrivateKey, hash);
+        bytes memory data = abi.encode(Mailbox.EclipseSecurityParam(nonce, abi.encodePacked(r, s, v)));
+        vm.prank(relayer);
+        assertTrue(mailbox.receiveMessage(eclipseChainId, sender, message, data));
+        vm.prank(relayer);
+        vm.expectRevert();
+        mailbox.receiveMessage(eclipseChainId, sender, message, data);
+    }
 }

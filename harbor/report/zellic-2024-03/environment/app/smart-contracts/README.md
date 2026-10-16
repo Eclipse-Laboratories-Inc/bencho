@@ -10,9 +10,7 @@ Currently there are a few issues that are not yet resolved in the smart-contract
 
 * UUPS proxy upgrades have not been fully designed, implemented and tested though some partial research has been done.  UUPS is useful in that we plan on eventually freezing the upgradeability of these contracts.
 * It is intended that a different multi-sig deployment authority will deploy the contracts, but the treasury will be managed by another party or perhaps will remain not upgradeable.
-* Withdraws have not been unit tested
 * Registry should potentially be refactored to use an AccessList or a better RBA mechanism that is built into a library like Open-Zeppelin instead of using our custom one.
-* The project only has a simple integration test for deposits and needs more thorough integration testing.
 
 Note that the simulated mailbox is not to be deployed, but is used only for integration testing internally. 
 

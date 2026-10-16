@@ -47,4 +47,14 @@ contract Eclipse002_Test is Test {
 
         assertEq(recipient.balance - beforeBalance, lamports * WEI_PER_LAMPORT);
     }
+
+    function test_audit_withdrawConvertsDifferentLamportAmount() external {
+        address recipient = makeAddr("recipient2");
+        IEtherBridge.WithdrawMessage memory message = IEtherBridge.WithdrawMessage({
+            sender: bytes32(uint256(2)), recipient: recipient, amount: 123
+        });
+        vm.prank(routerAddress);
+        etherBridge.withdraw(message);
+        assertEq(recipient.balance, 123 * WEI_PER_LAMPORT);
+    }
 }

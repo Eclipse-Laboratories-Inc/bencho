@@ -67,4 +67,38 @@ contract Eclipse009_Test is Test {
         assertEq(probe.seen(), uint8(ICanonicalBridge.WithdrawStatus.CLOSED));
         assertEq(address(probe).balance, 1 ether);
     }
+
+    function test_keep_unclaimedAuthorizationPaysExactlyOnce() external {
+        address admin = makeAddr("admin");
+        Treasury treasury = _treasury(admin);
+        CanonicalBridge bridge = new CanonicalBridge(admin, address(treasury));
+        bytes32 role = treasury.WITHDRAW_AUTHORITY_ROLE();
+        vm.prank(admin);
+        treasury.grantRole(role, address(bridge));
+        vm.deal(address(treasury), 2 ether);
+        address dest = makeAddr("dest-once");
+        ICanonicalBridge.WithdrawMessage memory message = ICanonicalBridge.WithdrawMessage({
+            from: bytes32(uint256(1)), destination: dest, amountWei: 1 ether,
+            withdrawId: 21, feeReceiver: makeAddr("fee"), feeWei: 0
+        });
+        vm.prank(admin);
+        bridge.authorizeWithdraw(message);
+        vm.warp(block.timestamp + 8 days);
+        bridge.claimWithdrawal(message);
+        assertEq(dest.balance, 1 ether);
+        vm.expectRevert();
+        bridge.claimWithdrawal(message);
+    }
+
+    function test_keep_unauthorizedClaimReverts() external {
+        address admin = makeAddr("admin");
+        Treasury treasury = _treasury(admin);
+        CanonicalBridge bridge = new CanonicalBridge(admin, address(treasury));
+        ICanonicalBridge.WithdrawMessage memory message = ICanonicalBridge.WithdrawMessage({
+            from: bytes32(uint256(1)), destination: makeAddr("dest-unauth"), amountWei: 1 ether,
+            withdrawId: 22, feeReceiver: makeAddr("fee"), feeWei: 0
+        });
+        vm.expectRevert();
+        bridge.claimWithdrawal(message);
+    }
 }

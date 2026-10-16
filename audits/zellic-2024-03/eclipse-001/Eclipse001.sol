@@ -41,5 +41,18 @@ contract Eclipse001_Test is Test {
         etherBridge.deposit{value: depositAmount + fee}(recipient, depositAmount, fee);
 
         assertEq(treasuryAddress.balance - treasuryBefore, depositAmount);
+        // Only the fee stays in EtherBridge; the full deposit is locked.
+        assertEq(address(etherBridge).balance, fee);
+    }
+
+    function test_audit_depositLocksDifferentAmountInTreasury() external {
+        vm.txGasPrice(1);
+        vm.deal(address(this), 10 ether);
+        uint256 depositAmount = etherBridge.minDepositAmount() * 3;
+        uint256 fee = etherBridge.estimateFee();
+        bytes32 recipient = bytes32(uint256(uint160(address(this))));
+        uint256 treasuryBefore = treasuryAddress.balance;
+        etherBridge.deposit{value: depositAmount + fee}(recipient, depositAmount, fee);
+        assertEq(treasuryAddress.balance - treasuryBefore, depositAmount);
     }
 }

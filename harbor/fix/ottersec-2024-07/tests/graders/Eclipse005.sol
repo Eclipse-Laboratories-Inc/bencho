@@ -14,4 +14,12 @@ contract Eclipse005_Test is Test {
         EtherBridge bridge = new EtherBridge();
         assertGe(bridge.MIN_DEPOSIT() / 1_000_000_000, requiredLamports);
     }
+
+    function test_keep_minDepositIsNotExcessive() external {
+        uint256 requiredLamports = 3480 * 2 * (49 + 128);
+        EtherBridge bridge = new EtherBridge();
+        // At most 2x the rent-exempt minimum: raising the floor far above the
+        // requirement is not a fix, it prices out legitimate deposits.
+        assertLe(bridge.MIN_DEPOSIT() / 1_000_000_000, requiredLamports * 2);
+    }
 }

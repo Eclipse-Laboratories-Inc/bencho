@@ -37,6 +37,22 @@ contract Eclipse007_Test is Test {
         assertEq(feeTo.balance, fee);
     }
 
+    function test_keep_insufficientBalanceStillReverts() external {
+        address user = makeAddr("user-short");
+        address feeTo = makeAddr("fee-short");
+        vm.deal(address(treasury), 0.9 ether);
+        vm.expectRevert();
+        treasury.withdrawEth(user, 1 ether, feeTo, 0.1 ether);
+    }
+
+    function test_keep_feeExceedingAmountReverts() external {
+        address user = makeAddr("user-bigfee");
+        address feeTo = makeAddr("fee-bigfee");
+        vm.deal(address(treasury), 2 ether);
+        vm.expectRevert();
+        treasury.withdrawEth(user, 1 ether, feeTo, 1.1 ether);
+    }
+
     function test_keep_zeroFeeWithdrawPaysFullAmount() external {
         address user = makeAddr("user-zero-fee");
         address feeTo = makeAddr("fee-zero");

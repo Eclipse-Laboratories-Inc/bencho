@@ -166,6 +166,37 @@ def report(trials: list[dict], audits: list[dict]) -> str:
     )
     out += [table(["", *(MODELS[model] for model in models)], rows), ""]
 
+    # Three-layer difficulty view (decision: never quote a single pass number).
+    out += [
+        "## Difficulty: three layers (do not quote a single pass rate)",
+        "",
+        "Layer 1 is the per-attempt mean reward above. Layer 2 counts a graded finding as solved "
+        "if at least one of the 5 attempts fixed it (per-finding pass@5). Layer 3 counts an audit "
+        "as solved only if one trial fixed every graded finding in it (full-audit pass@5).",
+        "",
+    ]
+    rows = []
+    for fmt in formats:
+        if not fmt.startswith("fix"):
+            continue
+        audits_for_fmt = sorted({t["audit"] for t in trials if t["format"] == fmt})
+        keys = sorted({k for t in trials if t["format"] == fmt for k in t["rewards"] if k.startswith("eclipse-")})
+        cells = []
+        for model in models:
+            group = by[fmt, model]
+            if not group:
+                cells.append("-")
+                continue
+            solved_once = sum(1 for k in keys if any(t["rewards"].get(k, 0) for t in group))
+            full = sum(
+                1
+                for audit in audits_for_fmt
+                if any(t["rewards"].get("reward", 0) == 1.0 for t in by[fmt, model, audit])
+            )
+            cells.append(f"L2 {solved_once}/{len(keys)} findings · L3 {full}/{len(audits_for_fmt)} audits")
+        rows.append([f"`{fmt}`", *cells])
+    out += [table(["Format", *(MODELS[model] for model in models)], rows), ""]
+
     fix_formats = [fmt for fmt in formats if fmt.startswith("fix")]
     if fix_formats:
         out += ["## Fix formats: attempts that fixed each finding", ""]
@@ -202,6 +233,10 @@ def report(trials: list[dict], audits: list[dict]) -> str:
         "- The judge model does not accept a fixed temperature, so rerunning the judge on the same report can "
         "credit a borderline finding differently.",
         "- `fix-ticketed` names each defect, so it measures repair, not discovery. `fix` and `report` measure discovery.",
+        "- After these runs the fix graders were hardened (see `audits/GRADER_AUDIT.md`: 25 tests across the "
+        "10 findings, was 13) and one in-tree leak was redacted (see `audits/LEAKAGE_AUDIT.md`). Oracle still "
+        "scores 1.0 and nop 0.0 on all 8 tasks, and post-hardening spot runs (1 attempt per fix audit) were "
+        "consistent with the scores above: Claude 5/10 findings, Inkling 2/10, no full audit solved.",
         "",
     ]
     return "\n".join(out)
