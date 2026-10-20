@@ -2,7 +2,7 @@ schema_version = "1.4"
 
 [task]
 name = "eclipse/fix-ottersec-2024-10"
-version = "2.0.0"
+version = "2.1.0"
 description = "Fix the defects found by the OtterSec 2024-10-31 audit of the Eclipse bridge contracts."
 authors = [{ name = "Eclipse Laboratories", email = "daniel@eclipse.builders" }]
 keywords = ["smart-contracts", "solidity", "foundry", "security", "fix"]

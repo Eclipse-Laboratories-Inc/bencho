@@ -2,7 +2,7 @@ schema_version = "1.4"
 
 [task]
 name = "eclipse/$name"
-version = "2.0.0"
+version = "2.1.0"
 description = "$description"
 authors = [{ name = "Eclipse Laboratories", email = "daniel@eclipse.builders" }]
 keywords = ["smart-contracts", "solidity", "foundry", "security", "$format"]

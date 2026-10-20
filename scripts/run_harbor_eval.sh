@@ -15,9 +15,10 @@ set -a
 # shellcheck disable=SC1091
 source .env
 set +a
-# The report judge always calls Anthropic, including when the agent uses another provider.
-export JUDGE_API_KEY="$ANTHROPIC_API_KEY"
-export JUDGE_WORKSPACE_ID="wrkspc_01F7W2SvkSGt156wCQHf7pu3"
+# Default judge is Anthropic. Override with JUDGE_API / JUDGE_BASE_URL / JUDGE_MODEL
+# (Harbor --ve) for an OpenAI-compatible judge such as DeepSeek or Kimi.
+export JUDGE_API_KEY="${JUDGE_API_KEY:-$ANTHROPIC_API_KEY}"
+export JUDGE_WORKSPACE_ID="${JUDGE_WORKSPACE_ID:-wrkspc_01F7W2SvkSGt156wCQHf7pu3}"
 
 case "$format" in
   fix | report) dataset="harbor/$format" ;;

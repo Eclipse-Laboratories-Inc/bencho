@@ -232,10 +232,21 @@ def write_report(audit: dict, app: Path, dest: Path) -> None:
         tooling = "The Foundry project is at `/app/smart-contracts` and `forge` is on PATH. Run it from `/app/smart-contracts`."
     verifier = (
         'network_mode = "allowlist"\n'
-        'allowed_hosts = ["api.anthropic.com"]\n\n'
+        "allowed_hosts = [\n"
+        '  "api.anthropic.com",\n'
+        '  "api.openai.com",\n'
+        '  "api.deepseek.com",\n'
+        '  "api.moonshot.ai",\n'
+        '  "api.moonshot.cn",\n'
+        '  "openrouter.ai",\n'
+        '  "api.together.xyz",\n'
+        '  "api.fireworks.ai",\n'
+        "]\n\n"
         "[verifier.env]\n"
         'JUDGE_API_KEY = "${JUDGE_API_KEY}"\n'
         f'JUDGE_MODEL = "${{JUDGE_MODEL:-{DEFAULT_JUDGE_MODEL}}}"\n'
+        'JUDGE_API = "${JUDGE_API:-}"\n'
+        'JUDGE_BASE_URL = "${JUDGE_BASE_URL:-}"\n'
         'JUDGE_WORKSPACE_ID = "${JUDGE_WORKSPACE_ID:-}"'
     )
     write_task(

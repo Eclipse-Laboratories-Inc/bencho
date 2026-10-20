@@ -33,6 +33,6 @@ scripts/run_harbor_eval.sh claude report
 .venv/bin/python scripts/summarize_results.py
 ```
 
-The agents are `claude` (Claude Sonnet 4.5), `inkling` (Thinking Machines Inkling through its Anthropic-compatible API), `oracle`, and `nop`. The formats are `fix`, `report`, and `fix-ticketed`. `fix-ticketed` is the fix task with each finding's ticket added to the instruction; it is generated into `.work/` when run and not committed. Keys are read from the gitignored `.env` (`ANTHROPIC_API_KEY`, `TINKER_API_KEY`), and the report judge always uses `ANTHROPIC_API_KEY`.
+The agents are `claude` (Claude Sonnet 4.5), `inkling` (Thinking Machines Inkling through its Anthropic-compatible API), `oracle`, and `nop`. Harbor's `terminus-2` agent also works: the image ships `tmux` and `asciinema` so Terminus does not need network to install. The formats are `fix`, `report`, and `fix-ticketed`. `fix-ticketed` is the fix task with each finding's ticket added to the instruction; it is generated into `.work/` when run and not committed. Keys are read from the gitignored `.env`. The report judge defaults to Anthropic (`JUDGE_API_KEY`, `JUDGE_MODEL`) and can be pointed at any OpenAI-compatible API with `JUDGE_API=openai` and `JUDGE_BASE_URL`.
 
 To add a finding, add an `[[findings]]` entry to the audit's `audit.toml`. If it has a deterministic fix, also add `task = "eclipse-NNN"` and a directory with the Forge test, `ticket.md`, and a `fix.patch` that applies on top of the earlier patches of that audit. Then regenerate and rerun the oracle and nop checks.

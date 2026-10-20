@@ -20,14 +20,30 @@ Eight Harbor tasks built from five published security audits of the Eclipse cano
 
 **`report/<audit>`**: the agent writes `/app/audit-report.md` with one `## <Severity>: <title>` section per finding. The verifier sends the report and the auditors' findings (`tests/rubric.json`) to a judge model, which matches report findings to auditor findings one to one. `reward.json` has one key per auditor finding (`<audit>/<finding id>`, 1 when identified) and `reward`, the fraction identified. This covers findings that cannot be unit-tested, such as design, centralization, and Solana program issues.
 
-The judge calls the Anthropic API from the verifier, so the verifier phase allows egress to `api.anthropic.com` only. Set `JUDGE_API_KEY` on the host; `JUDGE_MODEL` defaults to `claude-opus-5-5` and `JUDGE_WORKSPACE_ID` is optional. The judge does not support a fixed temperature, so a rerun can credit a borderline finding differently.
+The judge runs in the verifier and is selected at run time, not baked into the task. Pass Harbor `--ve KEY=VALUE` (or export the same names on the host):
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `JUDGE_MODEL` | `claude-opus-5-5` | Model id the judge API expects |
+| `JUDGE_API_KEY` | (required) | Bearer / x-api-key |
+| `JUDGE_API` | `anthropic` if `JUDGE_BASE_URL` is empty, else `openai` | Protocol |
+| `JUDGE_BASE_URL` | unset | OpenAI-compatible root (`https://api.deepseek.com`, `https://api.moonshot.ai/v1`, …) |
+| `JUDGE_WORKSPACE_ID` | unset | Anthropic only |
+
+The verifier allowlist includes Anthropic, OpenAI, DeepSeek, Moonshot/Kimi, OpenRouter, Together, and Fireworks. Add another host with Harbor `--allow-environment-host`. The judge does not support a fixed temperature, so a rerun can credit a borderline finding differently.
 
 ## Running
 
 ```bash
 harbor run -p harbor/fix -a oracle        # every finding 1
 harbor run -p harbor/fix -a nop           # findings 0, regression 1
-JUDGE_API_KEY=... harbor run -p harbor/report -a oracle   # reward 1
+harbor run -p harbor/fix -a terminus-2 -m <model>   # Terminus is preinstalled (tmux + asciinema)
+JUDGE_API_KEY=... harbor run -p harbor/report -a oracle   # Anthropic judge, reward 1
+harbor run -p harbor/report -a oracle \
+  --ve JUDGE_API=openai \
+  --ve JUDGE_BASE_URL=https://api.deepseek.com \
+  --ve JUDGE_MODEL=deepseek-chat \
+  --ve JUDGE_API_KEY=...
 ```
 
 `solution/` holds the reference fixes (one patch per finding, applied in order) and, for report tasks, a report rendered from the rubric.
@@ -40,12 +56,12 @@ The `fix/` tasks need no API keys or repo `.env` to validate. With Docker runnin
 scripts/validate_external.sh   # oracle must score 1.0, nop 0.0, on all 3 fix tasks
 ```
 
-This is the exact check run from a clean copy of the repo before handoff; expected output ends with `EXTERNAL VALIDATION PASSED`. Running your own model additionally needs only that model's API access configured for Harbor's `claude-code` agent. Only the `report/` tasks need a key (`JUDGE_API_KEY`, for the judge).
+This is the exact check run from a clean copy of the repo before handoff; expected output ends with `EXTERNAL VALIDATION PASSED`. `fix/` images include Claude Code, `tmux`, and `asciinema`, so Harbor `-a claude-code` and `-a terminus-2` both run without installing a harness at trial time. Only the `report/` tasks need a judge key.
 
 ## Integrity
 
 - Pinned base image `ghcr.io/foundry-rs/foundry@sha256:0437526…`. Libraries are fetched at pinned commits when the image is built. The tree has no `.git`, and audit PDFs, library tests, and Solana keypairs are removed. Developer notes that stated a finding outright (Zellic 2024-03 only) are removed by `audits/zellic-2024-03/redact.patch`.
-- No network while the agent works, apart from the model API the harness allows. The agent runs as `foundry` (uid 1000); the verifier runs as root.
+- No network while the agent works, apart from the model API the harness allows. Terminus (`tmux`, `asciinema`) and Claude Code are installed at image build so those harnesses do not need network. The agent runs as `foundry` (uid 1000); the verifier runs as root.
 - Before grading, the verifier kills every agent process and deletes any reward file the agent wrote.
 - Fix tasks:
   - The submission scores 0 if a file under `test/`, `script/`, or `lib/`, or `foundry.toml` or `remappings.txt`, changed from the image build, a symlink or `.env` is present, or a `src/` file gains a forge-std import or a reference to the cheatcode address. Files the agent added under those directories are deleted before grading.

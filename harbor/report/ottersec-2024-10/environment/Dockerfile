@@ -5,11 +5,15 @@ ENV FOUNDRY_DISABLE_NIGHTLY_WARNING=1 \
     FOUNDRY_FFI=false \
     FOUNDRY_FUZZ_SEED=0x1
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends ca-certificates curl git python3 \
+    && apt-get install -y --no-install-recommends \
+        ca-certificates curl git python3 python3-pip \
+        tmux asciinema procps \
     && rm -rf /var/lib/apt/lists/* \
     && curl -fsSL https://downloads.claude.ai/claude-code-releases/bootstrap.sh | bash -s -- \
     && install -m 0755 "$(readlink -f /root/.local/bin/claude)" /usr/local/bin/claude \
-    && /usr/local/bin/claude --version
+    && /usr/local/bin/claude --version \
+    && tmux -V \
+    && asciinema --version
 # The audited remappings.txt files expect these libraries under lib/.
 RUN set -eu; lib=/app/smart-contracts/lib; \
     fetch() { \
